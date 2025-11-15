@@ -6,12 +6,14 @@ import {
   IconButton,
   Paper,
   Divider,
+  Button,
+  TextField,
+  Stack,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { dark_green } from "../../colors/colorsApp";
-
 
 const style = {
   position: "absolute",
@@ -26,25 +28,28 @@ const style = {
 };
 
 export default function ComplaintDetails({ open, onClose, complaint }) {
-const [openImage, setOpenImage] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [note, setNote] = useState("");
+  const [showNoteInput, setShowNoteInput] = useState(false);
 
-
-const handleImageOpen = (img) => {
+  const handleImageOpen = (img) => {
     setSelectedImage(img);
     setOpenImage(true);
   };
 
-return(
+
+  return (
     <>
-    
-     {/* Modal الرئيسي */}
+      {/* Modal الرئيسي */}
       <Modal open={open} onClose={onClose}>
         <Box sx={style}>
           {/* Header */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: "bold", color:dark_green , textAlign: "center" 
- }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", color: "black", textAlign: "center" }}
+            >
               {complaint.title}
             </Typography>
             <IconButton onClick={onClose}>
@@ -57,28 +62,42 @@ return(
           {/* تفاصيل */}
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <Typography sx={{color:'black'}}><strong>رقم الشكوى:</strong> {complaint.number}</Typography>
-              <Typography><strong>تاريخ التقديم:</strong> {complaint.date}</Typography>
-              <Typography><strong>مقدم الشكوى:</strong> {complaint.user}</Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>رقم الشكوى:</strong> {complaint.number}
+              </Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>تاريخ التقديم:</strong> {complaint.date}
+              </Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>مقدم الشكوى:</strong> {complaint.user}
+              </Typography>
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <Typography><strong>المدينة:</strong> {complaint.city}</Typography>
-              <Typography><strong>القسم:</strong> {complaint.department}</Typography>
-              <Typography><strong>التصنيف:</strong> {complaint.category}</Typography>
-              <Typography><strong>مسند إلى:</strong> {complaint.assignedTo}</Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>المدينة:</strong> {complaint.city}
+              </Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>القسم:</strong> {complaint.department}
+              </Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>التصنيف:</strong> {complaint.category}
+              </Typography>
+              <Typography sx={{ color: "black" }}>
+                <strong>مسند إلى:</strong> {complaint.assignedTo}
+              </Typography>
             </Grid>
           </Grid>
 
           <Divider sx={{ my: 2 }} />
 
           {/* تفاصيل النص */}
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{ mb: 2, color: "black" }}>
             <strong>تفاصيل الشكوى:</strong> {complaint.details}
           </Typography>
 
           {/* ملفات مرفقة */}
-          <Typography sx={{ fontWeight: "bold", mb: 1 }}>
+          <Typography sx={{ fontWeight: "bold", mb: 1, color: "black" }}>
             المرفقات ({complaint.attachments.length})
           </Typography>
 
@@ -95,12 +114,57 @@ return(
                   }}
                   onClick={() => handleImageOpen(file)}
                 >
-                  <Typography variant="body2">{file.name}</Typography>
+                  <Typography variant="body2" sx={{ color: "black" }}>
+                    {file.name}
+                  </Typography>
                   <VisibilityIcon />
                 </Paper>
               </Grid>
             ))}
           </Grid>
+
+          {/* أزرار الإدارة */}
+          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setShowNoteInput(!showNoteInput)}
+            >
+              إضافة ملاحظة
+            </Button>
+            <Button variant="outlined" color="secondary">
+              طلب معلومات
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+            //   onClick={() => handleChangeStatus("قبول")}
+            >
+              قبول
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+            //   onClick={() => handleChangeStatus("رفض")}
+            >
+              رفض
+            </Button>
+          </Stack>
+
+          {/* مدخل الملاحظة */}
+          {showNoteInput && (
+            <Box sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                label="اكتب ملاحظة"
+                variant="outlined"
+                
+              />
+              <Button sx={{ mt: 1 }} variant="contained" >
+                حفظ الملاحظة
+              </Button>
+            </Box>
+          )}
         </Box>
       </Modal>
 
@@ -108,7 +172,9 @@ return(
       <Modal open={openImage} onClose={() => setOpenImage(false)}>
         <Box sx={style}>
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <Typography variant="h6">عرض المرفق</Typography>
+            <Typography variant="h6" sx={{ color: "black" }}>
+              عرض المرفق
+            </Typography>
             <IconButton onClick={() => setOpenImage(false)}>
               <CloseIcon />
             </IconButton>
@@ -121,14 +187,12 @@ return(
               style={{ width: "100%", borderRadius: 8 }}
             />
           ) : (
-            <Typography>📄 لا يمكن عرض هذا النوع، يرجى تحميل الملف</Typography>
+            <Typography sx={{ color: "black" }}>
+              📄 لا يمكن عرض هذا النوع، يرجى تحميل الملف
+            </Typography>
           )}
         </Box>
       </Modal>
-    
-    
-    
     </>
-)
-
+  );
 }

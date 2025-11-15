@@ -8,7 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton, Stack, Chip } from "@mui/material";
-import { dark_green } from "../../colors/colorsApp";
+import { dark_green } from "../../../colors/colorsApp";
+import Search from "../../hirareq/search";
 
 function createEmployee(name, role, department, isActive) {
   return { name, role, department, isActive };
@@ -23,6 +24,8 @@ const employees = [
 
 export default function EmployeesTable() {
   return (
+    <>
+    <Search/>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="employees table">
         <TableHead>
@@ -48,19 +51,18 @@ export default function EmployeesTable() {
         <TableBody>
           {employees.map((emp) => (
             <TableRow key={emp.name}>
-              <TableCell>{emp.name}</TableCell>
-              <TableCell align="right">{emp.role}</TableCell>
-              <TableCell align="right">{emp.department}</TableCell>
-              <TableCell align="right">
-                <Chip
-                  label={emp.isActive ? "نشط" : "غير نشط"}
-                  color={emp.isActive ? "success" : "error"}
-                  size="small"
-                />
-              </TableCell>
+              <TableCell sx={{color:'black'}}>{emp.name}</TableCell>
+              <TableCell sx={{color:'black'}}  align="right">{emp.role}</TableCell>
+              <TableCell  sx={{color:'black'}}  align="right">{emp.department}</TableCell>
+             <TableCell 
+  sx={{ color: emp.isActive ? 'green' : 'red', fontWeight: 'bold' }} 
+  align="right"
+>
+  {emp.isActive ? "نشط" : "غير نشط"}
+</TableCell>
               <TableCell align="right">
                 <Stack direction="row" justifyContent="flex-end">
-                  <IconButton color="primary" size="small">
+                  <IconButton sx={{color:dark_green}} size="small">
                     <EditIcon />
                   </IconButton>
                 </Stack>
@@ -70,5 +72,6 @@ export default function EmployeesTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }

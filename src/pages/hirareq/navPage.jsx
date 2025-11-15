@@ -1,10 +1,11 @@
 
-import { AppBar, Toolbar, Typography, Box, Button, IconButton, useTheme } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Button, IconButton, useTheme, colors } from "@mui/material";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { Link } from "react-router-dom";
-import { dark_green, white_primary } from "../../colors/colorsApp";
+import { dark_green, defult, white_primary } from "../../colors/colorsApp";
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 export default function NavPage() {
   const theme = useTheme();
 
@@ -20,14 +21,13 @@ export default function NavPage() {
 
           <Typography variant="h6" sx={{ color: theme.palette.text.primary, flexGrow: 1 }}>
 نظام الشكاوي الحكومي          </Typography>
-                     <Link to="/home"  style={{ textDecoration: 'none' }}>
 
 
         <Button>
           تسجيل الخروج
           <LogoutIcon fontSize="large" />
         </Button>
-</Link>
+<NotificationsIcon fontSize="large" sx={{color:defult}}/>
          
         </Toolbar>
       </AppBar>

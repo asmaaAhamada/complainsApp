@@ -4,7 +4,8 @@ import Log__in_Page from './pages/loginPage'
 import DashboardLayout from './pages/hirareq/Layout'
 import ComplaintsPage from './pages/employeePage/complain'
 import ComplaintDetails from './pages/employeePage/details'
-import EmployeesTable from './pages/admin/employees'
+import EmployeesTable from './pages/admin/employees/employees'
+import ComplaintsPieChart from './pages/admin/dashbord'
 
 
 export default function App(){
@@ -17,6 +18,8 @@ export default function App(){
           {/* <Route index element={<DashboardPage />} /> */}
            <Route path="/complaints" element={<ComplaintsPage />} />
                       <Route path="/employees" element={<EmployeesTable />} />
+                                            <Route path="/dashboard" element={<ComplaintsPieChart />} />
+
 
 
 
