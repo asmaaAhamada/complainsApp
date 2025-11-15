@@ -17,11 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Outlet, useLocation } from 'react-router-dom';
 //icon
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import CategoryIcon from '@mui/icons-material/Category';
-import SettingsIcon from '@mui/icons-material/Settings';
-import StoreIcon from '@mui/icons-material/Store';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt'; 
+
 
 
 import { useTheme } from '@mui/material/styles';
@@ -29,7 +25,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, IconButton } from '@mui/material';
 import { dark_green, defult } from '../../colors/colorsApp';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
-
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 const drawerWidth = 240;
 
 function SidPar(props) {
@@ -37,12 +33,20 @@ function SidPar(props) {
 const pages = [
   { label: "لوحة التحكم", path: "/dashboard" },
   { label: "الشكاوي", path: "/complaints" },
+    { label: "الموظفين", path: "/employees" },
+
 ];
 
-
+const user = {
+  name: "اسم الموظف",
+  role: "موظف",
+  avatar: "https://via.placeholder.com/150"
+};
 const iconsMap = {
   'لوحة التحكم': <DashboardIcon  fontSize="large"  />,
   'الشكاوي': <PrivacyTipIcon   fontSize="large"  />,
+    'الموظفين': <PeopleAltIcon   fontSize="large"  />,
+
 };
 
 
@@ -140,28 +144,31 @@ const location = useLocation();
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,backgroundColor: dark_green },
-          }}
+    display: { xs: 'none', sm: 'block' },
+    '& .MuiDrawer-paper': {
+      boxSizing: 'border-box',
+      width: drawerWidth,
+      backgroundColor: dark_green,
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden", // 🚫 إخفاء السكورل هنا ✨
+      paddingBottom: "20px",
+    },
+  }}
           open
         >
           {drawer}
+            <Box sx={{ textAlign: "center", color: "#fff", mt: "auto" }}>
+    <Avatar
+      src={user.avatar}
+      alt={user.name}
+      sx={{ width: 40, height: 40, mx: "auto", mb: 1 }}
+    />
+    <Box sx={{ fontWeight: "bold", fontSize: "14px" }}>{user.name}</Box>
+    <Box sx={{ fontSize: "12px", opacity: 0.8 }}>{user.role}</Box>
+  </Box>
         </Drawer>
-          <Avatar
-        alt="Remy Sharp"
-        src="/static/images/avatar/1.jpg"
-        sx={{
-          width: 48,
-          height: 48,
-          "@media (max-width:900px)": {
-            width: 40,
-            height: 40,
-          },
-          "@media (max-width:600px)": {
-            width: 32,
-            height: 32,
-          },
-        }}/>
+      
       </Box>
 
       {/* ✅ المحتوى الرئيسي */}

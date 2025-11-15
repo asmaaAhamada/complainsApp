@@ -1,9 +1,10 @@
 import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import Log__in_Page from './pages/loginPage'
-import DashboardLayout from './pages/employeePage/Layout'
+import DashboardLayout from './pages/hirareq/Layout'
 import ComplaintsPage from './pages/employeePage/complain'
 import ComplaintDetails from './pages/employeePage/details'
+import EmployeesTable from './pages/admin/employees'
 
 
 export default function App(){
@@ -15,8 +16,10 @@ export default function App(){
                     <Route path="/" element={<DashboardLayout />}>
           {/* <Route index element={<DashboardPage />} /> */}
            <Route path="/complaints" element={<ComplaintsPage />} />
-            details
-    
+                      <Route path="/employees" element={<EmployeesTable />} />
+
+
+
         </Route>
 </Routes>
    {/* ==================adminRouting======================= */}

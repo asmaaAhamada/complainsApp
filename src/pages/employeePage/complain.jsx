@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { dark_green } from "../../colors/colorsApp";
 import ComplaintDetails from "./details";
 import { useState } from "react";
-import Search from "./search";
+import Search from "../hirareq/search";
 
 const complaintData = {
   title: "تعطل إضاءة الشوارع",
