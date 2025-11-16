@@ -11,14 +11,21 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.userInfo = null;
+    },
+     setUserInfo: (state, action) => {
+      state.userInfo = action.payload;
+    },
+    clearUserInfo: (state) => {
+      state.userInfo = null;
     }
   },
   extraReducers: (builder) => {
     builder.addCase(Log_in.fulfilled, (state, action) => {
-      state.userInfo = action.payload; // حفظ بيانات اليوزر
+      state.userInfo = action.payload;
     });
   },
+
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, setUserInfo, clearUserInfo } = userSlice.actions;
 export default userSlice.reducer;

@@ -16,6 +16,10 @@ import { BsThreeDots } from "react-icons/bs";
 
 
 export default function Log__in_Page() {
+   const { userInfo } = useSelector((state) => state.user);
+    
+    console.log(userInfo?.name);
+    console.log(userInfo?.role);
   //state
 const { email, password } = useSelector((state) => state.Log_in.formInfo);
 const { isLoading, error } = useSelector((state) => state.Log_in);
@@ -33,14 +37,16 @@ const theme = useTheme();
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
- 
+
+    
 
   //  eventHandeler  
 
   async function handleLog_in (e){
     e.preventDefault();
     const resultAction = await dispatch(Log_in());
-    if (Log_in.fulfilled.match(resultAction)) {
+      const role = resultAction.payload?.role;
+if (role === "Super Admin") {
   navigate("/app");
 } else {
   console.log("خطأ التسجيل:", resultAction.payload);

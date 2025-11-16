@@ -68,7 +68,7 @@ const formSlice = createSlice({
       })
       .addCase(Log_in.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload; // 🟢 تم تخزين اليوزر هنا
+  state.user = action.payload;
       })
       .addCase(Log_in.rejected, (state, action) => {
         state.isLoading = false;
