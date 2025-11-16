@@ -7,9 +7,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton, Stack, Chip } from "@mui/material";
+import { IconButton, Stack, Chip, Box, Button } from "@mui/material";
 import { dark_green } from "../../../colors/colorsApp";
 import Search from "../../hirareq/search";
+import ADD_EMPLOYEES from "./addEmployees";
 
 function createEmployee(name, role, department, isActive) {
   return { name, role, department, isActive };
@@ -23,9 +24,34 @@ const employees = [
 ];
 
 export default function EmployeesTable() {
+  const [openADD,setopenADD]=React.useState(false)
+
+function handleadd(){
+  setopenADD(true)
+}
+
+  
   return (
     <>
+    <Box sx={{display:'flex' ,justifyContent:'Space_between' ,mb:2}}>
     <Search/>
+     <Button
+     onClick={handleadd}
+  variant="contained"
+  
+  sx={{
+    borderRadius: "10px",
+    fontSize: { xs: "18px", sm: "20px", md: "24px" },
+    fontWeight: "700",
+    mt: { xs: "5%", sm: "15%", md: "5%" },
+    width: { xs: "50%", sm: "40%", md: "80%" },
+    mb: 2,
+    textTransform: "none",
+  }}
+>
+    اضافة موظف
+</Button>
+</Box>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="employees table">
         <TableHead>
@@ -72,6 +98,15 @@ export default function EmployeesTable() {
         </TableBody>
       </Table>
     </TableContainer>
+
+
+
+    <ADD_EMPLOYEES
+     open={openADD}
+  onClose={() => setopenADD(false)}
+    
+    
+    />
     </>
   );
 }

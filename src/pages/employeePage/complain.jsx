@@ -9,12 +9,16 @@ import {
   CardActions,
   Button,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { dark_green, defult } from "../../colors/colorsApp";
 import ComplaintDetails from "./details";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "../hirareq/search";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchComplaints } from "../../slices/complaints/fetch";
+import NoComplaints from "../emptyData/complaints";
 
 const complaintData = {
   title: "تعطل إضاءة الشوارع",
@@ -30,39 +34,22 @@ const complaintData = {
 };
 
 
-const products = [
-  {
-    id: 1,
-    name: "Lip balm",
-    description: " Hydrating lip balm that keeps your lips soft and smooth all day.",
-    price: "120 $",
-   
-  },
-  {
-    id: 2,
-    name: "Eyeshadow",
-    description: "Silky eyeshadow with rich pigment for stunning eye looks",
-    price: "250 $",
-   
-  },
-  {
-    id: 3,
-    name: "Lip gloss",
-    description: "Shiny lip gloss that adds a glossy, plump finish to your lips",
-    price: "180 $",
-    
-  },
-  {
-    id: 4,
-    name: "Mascara",
-    description: "Volumizing mascara that lifts and defines every lash",
-    price: "320 $",
-    
-  },
-];
+
 
 
 export default function ComplaintsPage(){
+    //state
+  const complaintsState = useSelector((state) => state.fetchComplaints);
+      const { data: complaints, isloading, error } = complaintsState;
+console.log(complaints)
+    const dispatch= useDispatch()
+
+
+// fetchData
+useEffect(()=>{
+dispatch(fetchComplaints())
+},[])
+
     const [openModal,setOpenModal]=useState(false)
       const theme = useTheme();
     
@@ -70,10 +57,28 @@ export default function ComplaintsPage(){
         <>
         <Search/>
          <Grid  container spacing={3}>
-      {products.map((product) => (
+     {
+     
+     
+     isloading?(
+
+        <CircularProgress/>
+     ):
+     error?(
+        <Typography color="error">{error}</Typography>
+     ):
+     
+     
+     
+     
+     
+     
+     complaints && complaints.length > 0 ? (
+          complaints.map((complaint) => (
         <Grid  sx={(theme) => ({
     backgroundColor: theme.palette.background.default
-  })}key={product.id} item xs={12} sm={6} md={3}>
+  })}              key={complaint.id}
+ item xs={12} sm={6} md={3}>
           <Card sx={{bgcolor: 'background.main', height: "100%", display: "flex", flexDirection: "column" ,borderRadius:'8%',boxShadow:`4px 2px 3px ${dark_green}`}}>
            
             <Box
@@ -92,15 +97,23 @@ export default function ComplaintsPage(){
 </Box>
    
             <CardContent sx={{ flexGrow: 1 }}>
-              <Typography  gutterBottom variant="h6" component="div" sx={{color:dark_green}}>
-                {product.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                {product.description}
-              </Typography>
-              <Typography variant="subtitle1" color="primary">
-                {product.price}
-              </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    sx={{ color: dark_green }}
+                  >
+                    {complaint.complaint_type}
+                  </Typography>
+               <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    الرقم المرجعي: {complaint.reference_number}
+                  </Typography>
+                  <Typography variant="subtitle1" color="primary">
+                    المستخدم: {complaint.user_name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    تاريخ الإنشاء: {complaint.created_at}
+                  </Typography>
             </CardContent>
             <CardActions>
               <Button
@@ -114,7 +127,15 @@ fullWidth
             </CardActions>
           </Card>
         </Grid>
-      ))}
+      )))
+    
+    :(
+                  <NoComplaints/>
+
+    )
+    
+    
+    }
     </Grid>
     <ComplaintDetails
   open={openModal}

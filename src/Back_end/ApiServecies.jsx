@@ -24,7 +24,7 @@ export const postNoToken = async (url, data = {}, customHeaders = {}) => {
 // ========== توابع بإرسال توكن من الكوكيز ==========
 
 const getAuthHeaders = (customHeaders = {}) => {
-  const token = cookies.get("token"); // اسم الكوكي حسب طلبك
+  const token = cookies.get("token"); 
   return {
     Authorization: token ? `Bearer ${token}` : "",
     "Content-Type": "application/json",

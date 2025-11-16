@@ -2,54 +2,50 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 // import Cookies from 'universal-cookie';
 
-import Cookies from 'universal-cookie';
-import { postNoToken } from '../Back_end/ApiServecies';
-import { BaseUrl, LOG_IN } from '../Back_end/Api';
+import { BaseUrl, Creat, Employees } from '../../Back_end/Api';
+import { postData } from '../../Back_end/ApiServecies';
 
 const initialState = {
   formInfo: {
-    
+    name:'',
     email: '',
     password: '',
-   
+    password_confirmation:'',
+   department_id:'',
+   phone:''
   },
   isLoading: false,
   error: null,
+   success: false,
   
 };
 
-export const Log_in = createAsyncThunk(
-  'Log_in/Log_in',
-  async (_, { getState, rejectWithValue }) => {
+export const Add_Employees = createAsyncThunk(
+  'Log_in/Add_Employees',
+  async (department_id, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-      const {  email, password } = state.Log_in.formInfo;
+      const {name, email, password, password_confirmation,phone } = state.Add_Employees.formInfo;
 
-    
-
-      const response = await postNoToken(`${BaseUrl}${LOG_IN}`,  {  email, password }, {}, true);
+      const response = await postData(
+        `${BaseUrl}${Employees}${Creat}${department_id}`,
+        { name, email, password, password_confirmation,phone },
+        {},
+        true
+      );
       console.log("📦 login response:", response);
-const data = response.data;
-      const token = data.token;
-      const user = data.user;
-      const cookies = new Cookies();
-      cookies.set('token', token, {
-        path: '/',
-        maxAge: 86400, // يوم واحد
-      });
-return user
 
+      return response;
 
-
-     
     } catch (error) {
       return rejectWithValue(error?.message || 'فشل التسجيل');
     }
   }
 );
 
+
 const formSlice = createSlice({
-  name: 'Log_in',
+  name: 'Add_Employees',
   initialState,
   reducers: {
     setformInfo: (state, action) => {
@@ -62,15 +58,16 @@ const formSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(Log_in.pending, (state) => {
+      .addCase(Add_Employees.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(Log_in.fulfilled, (state, action) => {
+      .addCase(Add_Employees.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload; // 🟢 تم تخزين اليوزر هنا
+        state.user = action.payload; 
+        state.success = true;
       })
-      .addCase(Log_in.rejected, (state, action) => {
+      .addCase(Add_Employees.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

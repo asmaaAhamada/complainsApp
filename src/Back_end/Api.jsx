@@ -1,2 +1,7 @@
 export const BaseUrl = `http://127.0.0.1:8000/api/`;
 export const LOG_IN='login'
+export const Complaints='complaints/'
+export const Incoming='incoming'
+export const Employees= 'employees/'
+export const Creat ='create/'
+export const Gonverment= 'government-entities'

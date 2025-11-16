@@ -11,7 +11,7 @@ return(
           },
           '@media (max-width:600px)': {
             width: '35%', // موبايل
-          }, mb:2,
+          }, 
         }} id="outlined-basic" label="ابحث هنا" variant="outlined" />
              
 

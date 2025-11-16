@@ -161,7 +161,7 @@ const location = useLocation();
           {drawer}
             <Box sx={{ textAlign: "center", color: "#fff", mt: "auto" }}>
   
-    <Box sx={{ fontWeight: "bold", fontSize: "14px" }}>{userInfo.name}</Box>
+    <Box sx={{ fontWeight: "bold", fontSize: "14px" }}>{userInfo?.name}</Box>
     <Box sx={{ fontSize: "12px", opacity: 0.8 }}>{userInfo?.role}</Box>
   </Box>
         </Drawer>
