@@ -5,14 +5,27 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { InputAdornment, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { InputAdornment, IconButton, useMediaQuery, useTheme, LinearProgress, CircularProgress } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import { dark_green } from "../colors/colorsApp";
+import { dark_green, defult } from "../colors/colorsApp";
+import { useDispatch, useSelector } from "react-redux";
+import { Log_in, setformInfo } from "../slices/log_in_Slice";
+import {  Link, useNavigate } from 'react-router-dom';
+import { BsThreeDots } from "react-icons/bs";
 
 
 export default function Log__in_Page() {
-  
+  //state
+const { email, password } = useSelector((state) => state.Log_in.formInfo);
+const { isLoading, error } = useSelector((state) => state.Log_in);
+console.log(isLoading)
+  const dispatch=useDispatch()
+const navigate = useNavigate();
+
+
+
+
 const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'lg'));
@@ -22,7 +35,18 @@ const theme = useTheme();
   };
  
 
-     
+  //  eventHandeler  
+
+  async function handleLog_in (e){
+    e.preventDefault();
+    const resultAction = await dispatch(Log_in());
+    if (Log_in.fulfilled.match(resultAction)) {
+  navigate("/app");
+} else {
+  console.log("خطأ التسجيل:", resultAction.payload);
+}}
+
+  
   return (
     <>
       
@@ -78,7 +102,7 @@ const theme = useTheme();
             margin: { xs: "0 auto", md: "0" }
           }}
         >
-          <form style={{ width: "100%" }}>
+<form onSubmit={handleLog_in} style={{ width: "100%" }}>
             <CardContent sx={{ 
               display: "flex", 
               flexDirection: "column", 
@@ -108,13 +132,18 @@ const theme = useTheme();
               }}>
                
    <TextField
+    value={email}
+onChange={(e) => dispatch(setformInfo({ email: e.target.value }))}
+
           id="outlined-password-input"
-          label="اسم المستخدم"
+          label="ادخل الايميل"
          
           autoComplete="current-password"
-                            type= "text" 
+                            type= "email" 
 
           sx={{
+            input: { color: "black" }
+,
                     width: "80%",
                     borderRadius: "10px",
                     mb: 1,
@@ -140,13 +169,17 @@ const theme = useTheme();
         />
 
        <TextField
+        value={password}
+onChange={(e) => dispatch(setformInfo({ password: e.target.value }))}
           id="outlined-password-input"
-          label="كلمة المرور"
+          label="ادخل كلمة المرور"
          
           autoComplete="current-password"
                             type={showPassword ? "text" : "password"}
 
           sx={{
+            input: { color: "black" }
+,
                     width: "80%",
                     borderRadius: "10px",
                     mb: 1,
@@ -195,23 +228,30 @@ const theme = useTheme();
 
               </Box>
 
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  borderRadius: "10px",
-                //   backgroundColor: (theme) => theme.palette.secondary.main,
-                //   color: (theme) => theme.palette.primary.main,
-                  fontSize: { xs: "18px", sm: "20px", md: "24px" },
-                  fontWeight: "700",
-                  mt: { xs: "5%", sm: "15%", md: "5%" },
-                  width: { xs: "50%", sm: "40%", md: "80%" },
-                  mb: 2,
-                  textTransform: "none",
-                }}
-              >
-                تسجيل الدخول
-              </Button>
+ {isLoading ? (
+<CircularProgress  sx={{ width: "100%" ,color:defult}} />) :(  <Button
+  type="submit"
+  variant="contained"
+  
+  sx={{
+    borderRadius: "10px",
+    fontSize: { xs: "18px", sm: "20px", md: "24px" },
+    fontWeight: "700",
+    mt: { xs: "5%", sm: "15%", md: "5%" },
+    width: { xs: "50%", sm: "40%", md: "80%" },
+    mb: 2,
+    textTransform: "none",
+  }}
+>
+   تسجيل الدخول
+</Button>)}
+           
+{error && (
+  <Typography color="error" sx={{ mt: 1 }}>
+    {error}
+  </Typography>
+)}
+
             </CardContent>
           </form>
         </Card>

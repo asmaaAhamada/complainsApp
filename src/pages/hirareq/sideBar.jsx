@@ -26,22 +26,23 @@ import { Avatar, IconButton } from '@mui/material';
 import { dark_green, defult } from '../../colors/colorsApp';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import { useSelector } from 'react-redux';
 const drawerWidth = 240;
 
 function SidPar(props) {
+   const { userInfo } = useSelector((state) => state.user);
+  
+  console.log(userInfo?.name);
+  console.log(userInfo?.role);
 
 const pages = [
-  { label: "لوحة التحكم", path: "/dashboard" },
-  { label: "الشكاوي", path: "/complaints" },
-    { label: "الموظفين", path: "/employees" },
+  { label: "لوحة التحكم", path: "/app/dashboard" },
+  { label: "الشكاوي", path: "/app/complaints" },
+    { label: "الموظفين", path: "/app/employees" },
 
 ];
 
-const user = {
-  name: "اسم الموظف",
-  role: "موظف",
-  avatar: "https://via.placeholder.com/150"
-};
+
 const iconsMap = {
   'لوحة التحكم': <DashboardIcon  fontSize="large"  />,
   'الشكاوي': <PrivacyTipIcon   fontSize="large"  />,
@@ -159,13 +160,9 @@ const location = useLocation();
         >
           {drawer}
             <Box sx={{ textAlign: "center", color: "#fff", mt: "auto" }}>
-    <Avatar
-      src={user.avatar}
-      alt={user.name}
-      sx={{ width: 40, height: 40, mx: "auto", mb: 1 }}
-    />
-    <Box sx={{ fontWeight: "bold", fontSize: "14px" }}>{user.name}</Box>
-    <Box sx={{ fontSize: "12px", opacity: 0.8 }}>{user.role}</Box>
+  
+    <Box sx={{ fontWeight: "bold", fontSize: "14px" }}>{userInfo.name}</Box>
+    <Box sx={{ fontSize: "12px", opacity: 0.8 }}>{userInfo?.role}</Box>
   </Box>
         </Drawer>
       

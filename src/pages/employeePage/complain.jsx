@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { dark_green } from "../../colors/colorsApp";
+import { dark_green, defult } from "../../colors/colorsApp";
 import ComplaintDetails from "./details";
 import { useState } from "react";
 import Search from "../hirareq/search";
@@ -107,7 +107,7 @@ export default function ComplaintsPage(){
 onClick={() => setOpenModal(true)}
 fullWidth            
   variant="contained"
-                color="primary"
+                sx={{backgroundColor:dark_green ,color:defult}}
               >
 عرض التفاصيل              </Button>
 

@@ -11,14 +11,17 @@ import ComplaintsPieChart from './pages/admin/dashbord'
 export default function App(){
   return (
    <>
-   {/* //<Log__in_Page/> */}
-   {/* ==================adminRouting======================= */}
+   
    <Routes>
-                    <Route path="/" element={<DashboardLayout />}>
-          {/* <Route index element={<DashboardPage />} /> */}
-           <Route path="/complaints" element={<ComplaintsPage />} />
-                      <Route path="/employees" element={<EmployeesTable />} />
-                                            <Route path="/dashboard" element={<ComplaintsPieChart />} />
+   <Route path="/" element={<Log__in_Page />} />
+    <Route path="/login" element={<Log__in_Page />} />
+   {/* ==================adminRouting======================= */}
+   
+                    <Route path="/app" element={<DashboardLayout />}>
+          <Route index element={<ComplaintsPieChart />} />
+           <Route path="/app/complaints" element={<ComplaintsPage />} />
+                      <Route path="/app/employees" element={<EmployeesTable />} />
+                                            <Route path="/app/dashboard" element={<ComplaintsPieChart />} />
 
 
 

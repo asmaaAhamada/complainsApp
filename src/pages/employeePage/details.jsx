@@ -14,6 +14,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { dark_green } from "../../colors/colorsApp";
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const style = {
   position: "absolute",
@@ -28,6 +30,8 @@ const style = {
 };
 
 export default function ComplaintDetails({ open, onClose, complaint }) {
+    const [locked, setLocked] = useState(false); // false = مفتوح، true = مسكر
+
   const [openImage, setOpenImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [note, setNote] = useState("");
@@ -46,17 +50,25 @@ export default function ComplaintDetails({ open, onClose, complaint }) {
         <Box sx={style}>
           {/* Header */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <Typography
+           
+            <IconButton onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+             <IconButton onClick={() => setLocked(!locked)}>
+      {locked ? (
+        <LockIcon sx={{ fontSize: 30, color: dark_green }} /> // القفل مغلق
+      ) : (
+        <LockOpenIcon sx={{ fontSize: 30, color: dark_green }} /> // القفل مفتوح
+      )}
+    </IconButton>
+            
+          </Box>
+ <Typography
               variant="h6"
               sx={{ fontWeight: "bold", color: "black", textAlign: "center" }}
             >
               {complaint.title}
             </Typography>
-            <IconButton onClick={onClose}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
           <Divider sx={{ mb: 2 }} />
 
           {/* تفاصيل */}

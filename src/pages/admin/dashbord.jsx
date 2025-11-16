@@ -2,6 +2,7 @@ import React from "react";
 import { VictoryPie, VictoryLegend } from "victory";
 import { Box, Typography } from "@mui/material";
 import { COLORS, dark_green } from "../../colors/colorsApp";
+import { useSelector } from "react-redux";
 
 // بيانات الشكاوى حسب الحالة
 const complaintStats = [
@@ -14,6 +15,10 @@ const complaintStats = [
 // ألوان لكل حالة
 
 export default function ComplaintsPieChart() {
+//     const { userInfo } = useSelector((state) => state.user);
+
+// console.log(userInfo?.name);
+// console.log(userInfo?.role);
   return (
     <Box sx={{ width: "100%", height: 400, bgcolor: "background.paper", p: 2, borderRadius: 2 }}>
       <Typography variant="h6" sx={{ color: dark_green, mb: 2, fontWeight: "bold", textAlign: "center" }}>
