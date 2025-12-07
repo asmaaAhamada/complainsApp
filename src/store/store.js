@@ -7,6 +7,7 @@ import Add_EmployeesReducer from "../slices/employees/addEmployees"
 import Edit_EmployeesReducer from "../slices/employees/editEmployees"
 import fetchEmployeesReducer from "../slices/employees/fetchEmployees"
 import deletEmployeesReducer from "../slices/employees/delet"
+import StatisticsReducer from "../slices/victory/adminSatics"
 export default configureStore({
   reducer: {
     Log_in:Log_inReducer,
@@ -16,6 +17,7 @@ export default configureStore({
     Add_Employees:Add_EmployeesReducer,
     Edit_Employees:Edit_EmployeesReducer,
     fetchEmployees:fetchEmployeesReducer,
-    deletEmployees:deletEmployeesReducer
+    deletEmployees:deletEmployeesReducer,
+    Statistics:StatisticsReducer
   }
 })
