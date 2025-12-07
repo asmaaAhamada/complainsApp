@@ -1,5 +1,5 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
-import { BaseUrl, Complaints, Incoming } from '../../Back_end/Api';
+import { ALL, BaseUrl, Complaints, Incoming } from '../../Back_end/Api';
 import { getData } from '../../Back_end/ApiServecies';
 
 
@@ -8,7 +8,7 @@ export const fetchComplaints = createAsyncThunk(
   'program/fetchComplaints',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getData(`${BaseUrl}${Complaints}${Incoming}`) 
+      const response = await getData(`${BaseUrl}${Complaints}${ALL}`) 
       
       return response;
     } catch (error) {

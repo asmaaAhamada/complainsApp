@@ -41,7 +41,7 @@ export default function ComplaintsPage(){
     //state
   const complaintsState = useSelector((state) => state.fetchComplaints);
       const { data: complaints, isloading, error } = complaintsState;
-console.log(complaints)
+console.log(complaints?.data?.data)
     const dispatch= useDispatch()
 
 
@@ -62,7 +62,7 @@ dispatch(fetchComplaints())
      
      isloading?(
 
-        <CircularProgress/>
+  <><h5 style={{color: dark_green}}>جار تحميل البيانات.........</h5></>
      ):
      error?(
         <Typography color="error">{error}</Typography>
@@ -73,13 +73,13 @@ dispatch(fetchComplaints())
      
      
      
-     complaints && complaints.length > 0 ? (
-          complaints.map((complaint) => (
+     complaints?.data?.data && complaints?.data?.data.length > 0 ? (
+          complaints?.data?.data.map((complaint) => (
         <Grid  sx={(theme) => ({
     backgroundColor: theme.palette.background.default
   })}              key={complaint.id}
  item xs={12} sm={6} md={3}>
-          <Card sx={{bgcolor: 'background.main', height: "100%", display: "flex", flexDirection: "column" ,borderRadius:'8%',boxShadow:`4px 2px 3px ${dark_green}`}}>
+          <Card sx={ {bgcolor: 'background.main',mt:3, height: "100%", display: "flex", flexDirection: "column" ,borderRadius:'8%',boxShadow:`4px 2px 3px ${dark_green}`}}>
            
             <Box
         sx={{
@@ -108,11 +108,12 @@ dispatch(fetchComplaints())
                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                     الرقم المرجعي: {complaint.reference_number}
                   </Typography>
-                  <Typography variant="subtitle1" color="primary">
+                  <Typography variant="subtitle1" color="text.secondary">
                     المستخدم: {complaint.user_name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    تاريخ الإنشاء: {complaint.created_at}
+                    تاريخ الإنشاء:                   {new Date(complaint.created_at).toLocaleDateString()}
+
                   </Typography>
             </CardContent>
             <CardActions>
