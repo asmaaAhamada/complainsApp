@@ -18,7 +18,7 @@ export default function App(){
     <Route path="/login" element={<Log__in_Page />} />
    {/* ==================adminRouting======================= */}
              <Route element={<ProtectedRoute />}>
-            <Route element={<ProtectedRoute allowedRole={"Super Admin"} />}>
+            <Route element={<ProtectedRoute allowedRole={"المشرف العام"} />}>
 
                     <Route path="/app" element={<DashboardLayout />}>
           <Route index element={<ComplaintsPieChart />} />

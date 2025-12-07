@@ -11,7 +11,7 @@ const initialState = {
     email: '',
     password: '',
     password_confirmation:'',
-   department_id:'',
+   governmentEntityId:'',
    phone:''
   },
   isLoading: false,
@@ -22,13 +22,14 @@ const initialState = {
 
 export const Add_Employees = createAsyncThunk(
   'Log_in/Add_Employees',
-  async (department_id, { getState, rejectWithValue }) => {
+  async (governmentEntityId, { getState, rejectWithValue }) => {
     try {
       const state = getState();
       const {name, email, password, password_confirmation,phone } = state.Add_Employees.formInfo;
 
+
       const response = await postData(
-        `${BaseUrl}${Employees}${Creat}${department_id}`,
+        `${BaseUrl}${Employees}${Creat}${governmentEntityId}`,
         { name, email, password, password_confirmation,phone },
         {},
         true

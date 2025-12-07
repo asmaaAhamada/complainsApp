@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGonverment } from "../../../slices/fetchgonverment";
 import { dark_green } from "../../../colors/colorsApp";
-import { Add_Employees, resetForm, setformInfo } from "../../../slices/employees/addEmployees";
+import { Edit_Employees, resetForm, setformInfo } from "../../../slices/employees/editEmployees";
 
 const style = {
   position: "absolute",
@@ -32,24 +32,42 @@ const style = {
   borderRadius: 3,
 };
 
-export default function ADD_EMPLOYEES({ open, onClose ,onSuccess }) {
+export default function Edit_EMPLOYEES({ open, onClose ,employee}) {
 const { data: departments } = useSelector((state) => state.fetchGonverment);
-  const { name,email, password ,password_confirmation ,phone} = useSelector((state) => state.Add_Employees.formInfo);
-const { isLoading, error,success } = useSelector((state) => state.Add_Employees);
-const [showSuccess, setShowSuccess] = useState(false);
-
+  const { name,email, password ,password_confirmation ,phone} = useSelector((state) => state.Edit_Employees.formInfo);
+const { isLoading, error,success } = useSelector((state) => state.Edit_Employees);
   const dispatch = useDispatch();
 
-useEffect(() => {
-  if (success) {
-    setShowSuccess(true);
-     if (typeof onSuccess === "function") onSuccess();
 
-   setTimeout(() => {
-      setShowSuccess(false); //  إخفاء الرسالة بعد ثانيتين
-      dispatch(resetForm()); //  تصفير القيم بعد العرض
-      onClose(); //  إغلاق المودال بعد عرض الرسالة
-    }, 2000);
+
+
+
+useEffect(() => {
+  if (employee) {
+    dispatch(setformInfo({
+      name: employee.name || "",
+      email: employee.email || "",
+      phone: employee.phone || "",
+      password: "",
+      password_confirmation: "",
+      government_entity_id: employee.government_entity_id || ""
+    }));
+
+    setSelectedDepartmentId(employee.government_entity_id || "");
+  }
+}, [employee, dispatch]);
+
+
+
+
+useEffect(() => {
+  if(employee){
+    // alert(id)
+  }
+  if (success) {
+    alert("تمت إضافة الموظف بنجاح!");
+    dispatch(resetForm());
+    onClose(); // يغلق المودال
   }
 }, [success, dispatch, onClose]);
 const [selectedDepartmentId, setSelectedDepartmentId] = useState('');
@@ -60,43 +78,15 @@ useEffect(() => {
 }, [dispatch]);
 
 
- function handlAddEmployees(governmentEntityId) {
-  if (!governmentEntityId) {
-    alert("رجاءً اختر الجهة أولاً");
-    return;
-  }
-  dispatch(Add_Employees(governmentEntityId));
+ function handlEditeEmployees(government_entity_id) {
+ 
+  dispatch(Edit_Employees(government_entity_id));
 }
 
 
   return (
 
 <>
-
-
-{showSuccess  &&(
- <Box
-          sx={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: 'green',
-            color: "white",
-            padding: "24px 36px",
-            borderRadius: "10px",
-            fontSize: "22px",
-            fontWeight: "bold",
-            textAlign: "center",
-            zIndex: 2000,
-            boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
-            minWidth: "300px",
-          }}
-        >
-        تمت الاضافة بنجاح
-        </Box>)}
-
-
     {error && (
   <Box
     sx={{
@@ -123,7 +113,7 @@ useEffect(() => {
       <Box sx={style}>
         {/* Header */}
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-          <Typography sx={{color:dark_green}} variant="h6">إضافة موظف</Typography>
+          <Typography sx={{color:dark_green}} variant="h6">تعديل موظف</Typography>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
@@ -189,7 +179,10 @@ useEffect(() => {
               <Select
                 name="department"
                 value={selectedDepartmentId}
-                onChange={(e) => setSelectedDepartmentId(e.target.value)}
+onChange={(e) => {
+  setSelectedDepartmentId(e.target.value);
+  dispatch(setformInfo({ government_entity_id: e.target.value }));
+}}
               >
                 {departments.data?.map((dep) => (
                   <MenuItem sx={{ color: "black" }} key={dep.id} value={dep.id}>
@@ -219,9 +212,9 @@ useEffect(() => {
           <Button
             variant="contained"
             sx={{ backgroundColor: dark_green ,width:'100%'}}
-            onClick={()=>{handlAddEmployees(selectedDepartmentId)}}
+            onClick={()=>{handlEditeEmployees(employee.id)}}
           >
-            {isLoading? <CircularProgress/> :"إضافة"}
+            {isLoading? <CircularProgress/> :"حفظ"}
             
           </Button>
         </Box>

@@ -7,30 +7,56 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton, Stack, Chip, Box, Button } from "@mui/material";
-import { dark_green } from "../../../colors/colorsApp";
+import { IconButton, Stack, Chip, Box, Button, CircularProgress } from "@mui/material";
+import { dark_green, defult } from "../../../colors/colorsApp";
 import Search from "../../hirareq/search";
 import ADD_EMPLOYEES from "./addEmployees";
+import Edit_EMPLOYEES from "./editEmployees";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEmployees } from "../../../slices/employees/fetchEmployees";
+import NoData from "../../../empty/no data";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteEmployees from "./deletEmployees";
 
 function createEmployee(name, role, department, isActive) {
   return { name, role, department, isActive };
 }
 
-const employees = [
-  createEmployee("أحمد محمد", "مدير", "المبيعات", true),
-  createEmployee("سارة علي", "محاسب", "المالية", true),
-  createEmployee("محمود خالد", "دعم فني", "الدعم التقني", false),
-  createEmployee("نور رامي", "HR", "الموارد البشرية", true),
-];
+;
 
 export default function EmployeesTable() {
+
+const employees = useSelector((state)=>state.fetchEmployees)
+const { isLoading, error } = useSelector((state) => state.fetchEmployees);
+const dispatch=useDispatch()
+
+//fetch employees
+React.useEffect(()=>{
+  dispatch(fetchEmployees())
+},[])
   const [openADD,setopenADD]=React.useState(false)
+  const [openEdit,setopenEdit]=React.useState(false)
+  const[openDelet,setopenDelete]=React.useState(false)
+  //store employees
+const [selectedid, setSelectedid] = React.useState(null);
+
+
+//id
+const [id, setid] = React.useState(null);
 
 function handleadd(){
   setopenADD(true)
 }
 
-  
+  function handleEdit(emp){
+  setopenEdit(true)
+  setSelectedid(emp);
+}
+
+ function handleDelete(id){
+  setopenDelete(true)
+  setid(id);
+}
   return (
     <>
     <Box sx={{display:'flex' ,justifyContent:'Space_between' ,mb:2}}>
@@ -52,6 +78,7 @@ function handleadd(){
     اضافة موظف
 </Button>
 </Box>
+
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="employees table">
         <TableHead>
@@ -60,13 +87,13 @@ function handleadd(){
               اسم الموظف
             </TableCell>
             <TableCell align="right" sx={{ color: "#fff", fontWeight: "bold" }}>
-              الصلاحيات
+              البريد الالكتروني
             </TableCell>
             <TableCell align="right" sx={{ color: "#fff", fontWeight: "bold" }}>
               القسم
             </TableCell>
             <TableCell align="right" sx={{ color: "#fff", fontWeight: "bold" }}>
-              الحالة
+              رقم الهاتف
             </TableCell>
             <TableCell align="right" sx={{ color: "#fff", fontWeight: "bold" }}>
               تعديل
@@ -75,26 +102,42 @@ function handleadd(){
         </TableHead>
 
         <TableBody>
-          {employees.map((emp) => (
-            <TableRow key={emp.name}>
-              <TableCell sx={{color:'black'}}>{emp.name}</TableCell>
-              <TableCell sx={{color:'black'}}  align="right">{emp.role}</TableCell>
-              <TableCell  sx={{color:'black'}}  align="right">{emp.department}</TableCell>
-             <TableCell 
-  sx={{ color: emp.isActive ? 'green' : 'red', fontWeight: 'bold' }} 
-  align="right"
->
-  {emp.isActive ? "نشط" : "غير نشط"}
-</TableCell>
-              <TableCell align="right">
-                <Stack direction="row" justifyContent="flex-end">
+
+
+          
+             {error ? (
+  <Box> {error} </Box>
+) : isLoading ? (
+  <><h5 style={{color: dark_green}}>جار تحميل البيانات.........</h5></>
+) : Array.isArray(employees?.data) && employees.data.length === 0 && !isLoading ? (
+  <><NoData/></>
+) : (
+  Array.isArray(employees?.data) &&
+  employees.data.map((emp) => (
+    <TableRow key={emp.id}>
+      <TableCell sx={{color:'black'}} >{emp.name}</TableCell>
+      <TableCell sx={{color:'black'}} align="right">{emp.email}</TableCell>
+      <TableCell sx={{color:'black'}} align="right">{emp.government_entities?.join(", ")}</TableCell>
+      <TableCell sx={{color:'black'}}
+        align="right"
+      >
+        {emp.phone}
+      </TableCell>
+       <TableCell align="right">
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
                   <IconButton sx={{color:dark_green}} size="small">
-                    <EditIcon />
+                    <EditIcon onClick={()=>handleEdit(emp)}/>
+                  </IconButton>
+                  <IconButton color="error" size="small">
+                    <DeleteIcon onClick ={()=>handleDelete(emp.id)} />
                   </IconButton>
                 </Stack>
               </TableCell>
-            </TableRow>
-          ))}
+      {/* <TableCell align="right"> <Stack direction="row" justifyContent="flex-end"> <IconButton sx={{color:dark_green}} size="small"> <EditIcon onClick={handleEdit}/> </IconButton> </Stack> </TableCell> */}
+    </TableRow>
+  ))
+)}
+
         </TableBody>
       </Table>
     </TableContainer>
@@ -104,6 +147,24 @@ function handleadd(){
     <ADD_EMPLOYEES
      open={openADD}
   onClose={() => setopenADD(false)}
+              onSuccess={() => dispatch(fetchEmployees())}
+
+    
+    />
+
+    <Edit_EMPLOYEES open={openEdit}
+      onClose={() =>setopenEdit(false)}
+          onSuccess={() => dispatch(fetchEmployees())}
+employee={selectedid}
+    />
+
+
+
+    <DeleteEmployees
+    open={openDelet}
+     onClose={() =>setopenDelete(false)}
+          onSuccess={() => dispatch(fetchEmployees())}
+id={id}
     
     
     />

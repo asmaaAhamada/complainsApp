@@ -83,3 +83,17 @@ export const putData = async (url, data = {}, customHeaders = {}) => {
     throw error.response ? error.response.data : error;
   }
 };
+
+
+// DELETE مع توكن
+export const deleteData = async (url, customHeaders = {}) => {
+  try {
+    const response = await axios.delete(url, {
+      headers: getAuthHeaders(customHeaders),
+    });
+    return response.data || response;
+  } catch (error) {
+    console.error("AXIOS ERROR:", error);
+    throw error.response ? error.response.data : error;
+  }
+};
