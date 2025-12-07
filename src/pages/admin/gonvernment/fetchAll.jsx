@@ -15,6 +15,7 @@ import NoData from "../../../empty/no data";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchGonverment } from "../../../slices/gonvernment/fetchgonverment";
 import ADD_Gonvermentss from "./addGonverment";
+import DeleteGonverments from "./deletGonverments";
 
 
 export default function Gonvernment() {
@@ -142,14 +143,14 @@ employee={selectedid}
 
 
 
-    {/* <DeleteEmployees
+    <DeleteGonverments
     open={openDelet}
      onClose={() =>setopenDelete(false)}
           onSuccess={() => dispatch(fetchGonverment())}
 id={id}
     
     
-    /> */}
+    />
     </>
   );
 }
