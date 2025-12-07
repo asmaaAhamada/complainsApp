@@ -1,6 +1,6 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
-import { getData } from '../Back_end/ApiServecies';
-import { BaseUrl, Gonverment } from '../Back_end/Api';
+import { getData } from '../../Back_end/ApiServecies';
+import { BaseUrl, Gonverment } from '../../Back_end/Api';
 
 
 

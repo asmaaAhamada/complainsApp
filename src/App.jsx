@@ -7,6 +7,7 @@ import ComplaintDetails from './pages/employeePage/details'
 import EmployeesTable from './pages/admin/employees/employees'
 import ComplaintsPieChart from './pages/admin/dashbord'
 import ProtectedRoute from './protectedRout/proctedRout'
+import Gonvernment from './pages/admin/gonvernment/fetchAll'
 
 
 export default function App(){
@@ -25,6 +26,9 @@ export default function App(){
            <Route path="/app/complaints" element={<ComplaintsPage />} />
                       <Route path="/app/employees" element={<EmployeesTable />} />
                                             <Route path="/app/dashboard" element={<ComplaintsPieChart />} />
+
+
+                                            <Route path="/app/gonvernments" element={<Gonvernment />} />
 
  </Route>
 

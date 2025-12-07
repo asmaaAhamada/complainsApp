@@ -39,6 +39,7 @@ const pages = [
   { label: "لوحة التحكم", path: "/app/dashboard" },
   { label: "الشكاوي", path: "/app/complaints" },
     { label: "الموظفين", path: "/app/employees" },
+    { label: "الجهات الحكومية", path: "/app/gonvernments" },
 
 ];
 

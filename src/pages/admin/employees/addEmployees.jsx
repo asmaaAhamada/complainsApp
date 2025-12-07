@@ -16,7 +16,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGonverment } from "../../../slices/fetchgonverment";
+import { fetchGonverment } from "../../../slices/gonvernment/fetchgonverment";
 import { dark_green } from "../../../colors/colorsApp";
 import { Add_Employees, resetForm, setformInfo } from "../../../slices/employees/addEmployees";
 

@@ -18,11 +18,8 @@ import NoData from "../../../empty/no data";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteEmployees from "./deletEmployees";
 
-function createEmployee(name, role, department, isActive) {
-  return { name, role, department, isActive };
-}
 
-;
+
 
 export default function EmployeesTable() {
 
