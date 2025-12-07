@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchGonverment } from "../../../slices/gonvernment/fetchgonverment";
 import ADD_Gonvermentss from "./addGonverment";
 import DeleteGonverments from "./deletGonverments";
+import Edit_Gonvermentss from "./editGonverments";
 
 
 export default function Gonvernment() {
@@ -42,9 +43,9 @@ function handleadd(){
   setopenADD(true)
 }
 
-  function handleEdit(emp){
+  function handleEdit(item){
   setopenEdit(true)
-  setSelectedid(emp);
+  setSelectedid(item);
 }
 
  function handleDelete(id){
@@ -134,12 +135,13 @@ function handleadd(){
 
     
     />
-{/* 
-    <Edit_EMPLOYEES open={openEdit}
+
+    <Edit_Gonvermentss
+     open={openEdit}
       onClose={() =>setopenEdit(false)}
           onSuccess={() => dispatch(fetchGonverment())}
-employee={selectedid}
-    /> */}
+item={selectedid}
+    />
 
 
 

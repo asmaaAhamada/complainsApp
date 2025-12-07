@@ -10,6 +10,7 @@ import deletEmployeesReducer from "../slices/employees/delet"
 import StatisticsReducer from "../slices/victory/adminSatics"
 import Add_GonvermentsReducer from "../slices/gonvernment/addGonverment"
 import deletGonvermentsReducer from "../slices/gonvernment/deletGonverments"
+import Edit_GonvermentsReducer from "../slices/gonvernment/Edit_Gonverments"
 export default configureStore({
   reducer: {
     Log_in:Log_inReducer,
@@ -22,6 +23,7 @@ export default configureStore({
     deletEmployees:deletEmployeesReducer,
     Statistics:StatisticsReducer,
     Add_Gonverments:Add_GonvermentsReducer,
-    deletGonverments:deletGonvermentsReducer
+    deletGonverments:deletGonvermentsReducer,
+    Edit_Gonverments:Edit_GonvermentsReducer
   }
 })
