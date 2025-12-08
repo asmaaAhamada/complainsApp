@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { VictoryPie, VictoryLegend } from "victory";
+import { VictoryPie } from "victory";
 import { Box, Typography } from "@mui/material";
 import { COLORS, dark_green, secondaryColors } from "../../colors/colorsApp";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { Statistics } from "../../slices/victory/adminSatics";
 
 export default function DashboardCharts() {
   const dispatch = useDispatch();
-  const { data, error } = useSelector((state) => state.Statistics);
+  const { data } = useSelector((state) => state.Statistics);
 
   useEffect(() => {
     dispatch(Statistics());
@@ -38,11 +38,13 @@ export default function DashboardCharts() {
       <Box
         sx={{
           width: "100%",
-          height: 500,
           bgcolor: "background.paper",
           p: 2,
           borderRadius: 2,
           mb: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Typography
@@ -59,36 +61,50 @@ export default function DashboardCharts() {
 
         {complaintStats.length > 0 ? (
           <>
+            {/* Pie Chart بدون نصوص داخلية */}
             <VictoryPie
               data={complaintStats}
               colorScale={COLORS}
-              labels={({ datum }) => `${datum.x}: ${datum.y}`}
+              labels={() => null}
               innerRadius={60}
               padAngle={3}
-              labelRadius={90}
-              style={{
-                labels: {
-                  fontSize: 14,
-                  fontWeight: "bold",
-                  fill: ({ datum }) => COLORS[complaintStats.indexOf(datum)],
-                },
+              height={300}
+            />
+
+            {/* Cards أسفل الرسم */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" },
+                gap: 2,
+                mt: 3,
+                width: "100%",
               }}
-            />
-            <VictoryLegend
-              standalone={false}
-              x={0}
-              y={400}
-              orientation="horizontal"
-              gutter={20}
-              data={complaintStats.map((item, index) => ({
-                name: item.x,
-                symbol: { fill: COLORS[index] },
-              }))}
-            />
+            >
+              {complaintStats.map((item, index) => (
+                <Box
+                  key={item.x}
+                  sx={{
+                    bgcolor: COLORS[index],
+                    borderRadius: 2,
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    boxShadow: 3,
+                  }}
+                >
+                  <Typography>{item.x}</Typography>
+                  <Typography variant="h6">{item.y}</Typography>
+                </Box>
+              ))}
+            </Box>
           </>
         ) : (
-          <Typography sx={{ textAlign: "center", mt: 5 }}>
-            جاري تحميل البيانات...
+          <Typography sx={{ textAlign: "center", mt: 5, color: "gray" }}>
+            لا توجد بيانات متاحة حالياً
           </Typography>
         )}
       </Box>
@@ -97,10 +113,12 @@ export default function DashboardCharts() {
       <Box
         sx={{
           width: "100%",
-          height: 500,
           bgcolor: "background.paper",
           p: 2,
           borderRadius: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Typography
@@ -117,41 +135,50 @@ export default function DashboardCharts() {
 
         {userStats.length > 0 ? (
           <>
+            {/* Pie Chart بدون نصوص داخلية */}
             <VictoryPie
               data={userStats}
               colorScale={secondaryColors || COLORS}
-              labels={({ datum }) => `${datum.x}: ${datum.y}`}
+              labels={() => null}
               innerRadius={60}
               padAngle={3}
-              labelRadius={90}
-              style={{
-                labels: {
-                  fontSize: 14,
-                  fontWeight: "bold",
-                  fill: ({ datum }) =>
-                    secondaryColors
-                      ? secondaryColors[userStats.indexOf(datum)]
-                      : COLORS[userStats.indexOf(datum)],
-                },
+              height={300}
+            />
+
+            {/* Cards أسفل الرسم */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(3, 1fr)" },
+                gap: 2,
+                mt: 3,
+                width: "100%",
               }}
-            />
-            <VictoryLegend
-              standalone={false}
-              x={0}
-              y={400}
-              orientation="horizontal"
-              gutter={20}
-              data={userStats.map((item, index) => ({
-                name: item.x,
-                symbol: {
-                  fill: secondaryColors ? secondaryColors[index] : COLORS[index],
-                },
-              }))}
-            />
+            >
+              {userStats.map((item, index) => (
+                <Box
+                  key={item.x}
+                  sx={{
+                    bgcolor: secondaryColors ? secondaryColors[index] : COLORS[index],
+                    borderRadius: 2,
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    color: "black",
+                    fontWeight: "bold",
+                    boxShadow: 3,
+                  }}
+                >
+                  <Typography>{item.x}</Typography>
+                  <Typography variant="h6">{item.y}</Typography>
+                </Box>
+              ))}
+            </Box>
           </>
         ) : (
-          <Typography sx={{ textAlign: "center", mt: 5 }}>
-            جاري تحميل البيانات...
+          <Typography sx={{ textAlign: "center", mt: 5, color: "gray" }}>
+            لا توجد بيانات متاحة حالياً
           </Typography>
         )}
       </Box>

@@ -2,43 +2,59 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography, CircularProgress, Button } from "@mui/material";
 import { incomingComplaints } from "../../slices/manegerAdmin/incomingcomplaints";
-import ChangeStatusModal from "./ChangeStatusModal";
 import AddNoteModal from "./AddNoteModal";
 import ComplaintDetailsModal from "./ComplaintDetailsModal";
 import ComplaintCard from "./ComplaintCard";
+import { Toggle } from "../../slices/manegerAdmin/toglleStatus";
+import { Snackbar, Alert } from "@mui/material";
 
 export default function Incoming_Complaints() {
   const dispatch = useDispatch();
   const { data, isloading, page } = useSelector((state) => state.incomingComplaints);
-
+console.log(data)
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openAddNote, setOpenAddNote] = useState(false);
-  const [openChangeStatus, setOpenChangeStatus] = useState(false);
+const [successMessage, setSuccessMessage] = useState("");
+  const [selectedComplaint_id, setselectedComplaint_id] = useState(null);
+  const [id, setid] = useState(null);
+  const [iid, setiid] = useState(null);
 
   useEffect(() => {
     dispatch(incomingComplaints(page)); 
-  }, [dispatch]);
+  }, [dispatch,page]);
 
-  const complaints = data?.data?.data || [];
-  const meta = data?.data?.meta;
-  const links = data?.data?.links;
+ const complaints = data?.data?.data ;
+const meta = data?.data?.meta || {};
+const links = data?.data?.links || {};
+console.log("complaints:", complaints);
+console.log("meta:", meta);
+console.log("links:", links);
+
 
   // --- Buttons Actions ----
-  const handleView = (complaint) => {
-    setSelectedComplaint(complaint);
+  const handleView = (id) => {
+      setselectedComplaint_id(id);   
+
     setOpenDetails(true);
   };
 
-  const handleAddNote = (complaint) => {
-    setSelectedComplaint(complaint);
+  const handleAddNote = (id) => {
+    setid(id);
     setOpenAddNote(true);
   };
 
-  const handleChangeStatus = (complaint) => {
-    setSelectedComplaint(complaint);
-    setOpenChangeStatus(true);
-  };
+  
+  
+const handleChangeStatus = (id) => {
+  dispatch(Toggle(id)).then((res) => {
+    if (res.meta.requestStatus === "fulfilled") {
+      setSuccessMessage("تم تغيير حالة الشكوى بنجاح ✔");
+      dispatch(incomingComplaints(page)); 
+    }
+  });
+};
+
 
   const loadPage = (newPage) => {
     dispatch(incomingComplaints(newPage));
@@ -53,11 +69,22 @@ export default function Incoming_Complaints() {
 
   return (
     <Box sx={{ p: 3 }}>
+        <Snackbar
+  open={Boolean(successMessage)}
+  autoHideDuration={3000}
+  onClose={() => setSuccessMessage("")}
+  anchorOrigin={{ vertical: "top", horizontal: "center" }}
+>
+  <Alert severity="success" variant="filled">
+    {successMessage}
+  </Alert>
+</Snackbar>
+
       <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
         الشكاوي الواردة
       </Typography>
 
-      {complaints.length === 0 ? (
+{!complaints || complaints.length === 0 ? (
         <Typography sx={{ mt: 4, textAlign: "center", color: "gray" }}>
           لا توجد شكاوي واردة حالياً.
         </Typography>
@@ -66,9 +93,9 @@ export default function Incoming_Complaints() {
           <ComplaintCard
             key={item.id}
             complaint={item}
-            onView={handleView}
-            onAddNote={handleAddNote}
-            onChangeStatus={handleChangeStatus}
+onView={() => handleView(item.id)}
+            onAddNote={()=>handleAddNote(item.id)}
+onChangeStatus={() => handleChangeStatus(item.id)}
           />
         ))
       )}
@@ -101,23 +128,23 @@ export default function Incoming_Complaints() {
       {/* Modals */}
       <ComplaintDetailsModal
         open={openDetails}
-        complaint={selectedComplaint}
+        complaintId={selectedComplaint_id}
         onClose={() => setOpenDetails(false)}
       />
 
       <AddNoteModal
         open={openAddNote}
-        complaint={selectedComplaint}
+        id={id}
         onClose={() => setOpenAddNote(false)}
         onSave={() => setOpenAddNote(false)}
       />
 
-      <ChangeStatusModal
+      {/* <ChangeStatusModal
         open={openChangeStatus}
-        complaint={selectedComplaint}
+        id={iid}
         onClose={() => setOpenChangeStatus(false)}
         onSave={() => setOpenChangeStatus(false)}
-      />
+      /> */}
     </Box>
   );
 }

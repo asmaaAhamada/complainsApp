@@ -14,3 +14,7 @@ export const STatistics ='statistics/'
 export const ADMIN ='admin'
 export const GONVERMENT_ENTITIES='government-entities'
 export const HISTORY='history/'
+export const Gonverments= 'government'
+export const ADD_Notify= 'add-note/'
+export const Toggle_Status='toggle-status/'
+

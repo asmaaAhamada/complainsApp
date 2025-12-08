@@ -1,6 +1,7 @@
 import { Card, CardContent, Typography, Button, Box, Chip } from "@mui/material";
 import { dark_green, white, white_primary } from "../../colors/colorsApp";
-
+import { IconButton, Tooltip } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 export default function ComplaintCard({ complaint, onView, onAddNote, onChangeStatus }) {
   return (
     <Card
@@ -14,19 +15,27 @@ export default function ComplaintCard({ complaint, onView, onAddNote, onChangeSt
       }}
     >
       <CardContent>
-        <Typography variant="h6" fontWeight="bold" color={dark_green}>
-          {complaint.title || "شكوى بدون عنوان"}
-        </Typography>
+       <Typography variant="h6" fontWeight="bold" color={dark_green}>
+  {complaint.complaint_type || "نوع الشكوى غير موجود"}
+</Typography>
 
-        <Typography variant="body2" sx={{ mt: 1 }}>
-          {complaint.description?.slice(0, 120) || "لا يوجد وصف"}...
-        </Typography>
+<Typography color={dark_green} variant="body2" sx={{ mt: 1 }}>
+  رقم المرجع: {complaint.reference_number}
+</Typography>
+
+<Typography color={dark_green} variant="body2" sx={{ mt: 1 }}>
+  مقدم الشكوى: {complaint.user_name}
+</Typography>
+
+<Typography  color={dark_green} variant="body2" sx={{ mt: 1 }}>
+  التاريخ: {complaint.created_at}
+</Typography>
 
         <Box sx={{ mt: 2 }}>
           <Chip
             label={`الحالة: ${complaint.status || "غير محددة"}`}
             sx={{
-              backgroundColor: dark_green,
+              backgroundColor: '#FFBB28',
               color: white,
               fontWeight: "bold",
             }}
@@ -60,18 +69,14 @@ export default function ComplaintCard({ complaint, onView, onAddNote, onChangeSt
             إضافة ملاحظة
           </Button>
 
-          <Button
-            variant="outlined"
-            onClick={() => onChangeStatus(complaint)}
-            sx={{
-              borderColor: "red",
-              color: "red",
-              "&:hover": { borderColor: "#cc0000", color: "#cc0000" },
-              flex: 1,
-            }}
-          >
-            تعديل الحالة
-          </Button>
+          <Tooltip title="تغيير الحالة إلى قيد المعالجة">
+  <IconButton 
+    color="red" 
+    onClick={() => onChangeStatus(complaint.id)}
+  >
+    <VisibilityIcon />
+  </IconButton>
+</Tooltip>
         </Box>
       </CardContent>
     </Card>

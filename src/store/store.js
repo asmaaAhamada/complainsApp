@@ -13,6 +13,10 @@ import deletGonvermentsReducer from "../slices/gonvernment/deletGonverments"
 import Edit_GonvermentsReducer from "../slices/gonvernment/Edit_Gonverments"
 import incomingComplaintsReducer from "../slices/manegerAdmin/incomingcomplaints"
 import fetchComplaintsHistoryReducer from "../slices/complaints/history"
+import Employees_StatisticsReducer from "../slices/victory/employeesSatics"
+import fetchComplaintsincomingReducer from "../slices/manegerAdmin/details"
+import notifyReducer from  "../slices/manegerAdmin/notify"
+import ToggleReducer from "../slices/manegerAdmin/toglleStatus"
 export default configureStore({
   reducer: {
     Log_in:Log_inReducer,
@@ -28,6 +32,10 @@ export default configureStore({
     deletGonverments:deletGonvermentsReducer,
     Edit_Gonverments:Edit_GonvermentsReducer,
     incomingComplaints:incomingComplaintsReducer,
-    fetchComplaintsHistory:fetchComplaintsHistoryReducer
+    fetchComplaintsHistory:fetchComplaintsHistoryReducer,
+    Employees_Statistics:Employees_StatisticsReducer,
+    fetchComplaintsincoming:fetchComplaintsincomingReducer,
+    notify:notifyReducer,
+    Toggle:ToggleReducer
   }
 })
