@@ -8,8 +8,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 export default function NoData(){
     return(
         <>
-        <TableRow>
-  <TableCell colSpan={8} align="center">
+  
     <Box
       sx={{
         display: 'flex',
@@ -28,8 +27,7 @@ export default function NoData(){
         لا يوجد محتوى لعرضه في الوقت الحالي
       </Typography>
     </Box>
-  </TableCell>
-</TableRow>
+
 
         
         

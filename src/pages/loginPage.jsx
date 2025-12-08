@@ -46,7 +46,7 @@ const theme = useTheme();
     e.preventDefault();
     const resultAction = await dispatch(Log_in());
       const role = resultAction.payload?.role;
-if (role === "المشرف العام") {
+if (role === "المشرف العام" || role === "الموظف") {
   navigate("/app");
 } else {
   console.log("خطأ التسجيل:", resultAction.payload);

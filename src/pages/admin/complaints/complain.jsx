@@ -12,26 +12,15 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { dark_green, defult } from "../../colors/colorsApp";
-import ComplaintDetails from "./details";
+import { dark_green, defult } from "../../../colors/colorsApp";
+import ComplaintDetails from "../../employeePage/details";
 import { useEffect, useState } from "react";
-import Search from "../hirareq/search";
+import Search from "../../hirareq/search";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchComplaints } from "../../slices/complaints/fetch";
-import NoComplaints from "../emptyData/complaints";
+import { fetchComplaints } from "../../../slices/complaints/fetch";
+import ComplaintHistoryDetails from "./ComplaintHistoryDetails";
+import NoComplaints from "../../emptyData/complaints";
 
-const complaintData = {
-  title: "تعطل إضاءة الشوارع",
-  number: "C-2025",
-  date: "١٤ جمادى الأولى ١٤٤٧ هـ في ٠٧:٤٥ م",
-  user: "ريم الغامدي",
-  city: "الرياض",
-  department: "خدمات المواطنين",
-  category: "المرافق العامة",
-  assignedTo: "فاطمة العتيبي",
-  details: "إضاءة الشوارع في حي السلام لا تعمل منذ أسبوعين...",
-  attachments: []
-};
 
 
 
@@ -44,6 +33,7 @@ export default function ComplaintsPage(){
 console.log(complaints?.data?.data)
     const dispatch= useDispatch()
 
+const [selectedId, setSelectedId] = useState(null);
 
 // fetchData
 useEffect(()=>{
@@ -62,7 +52,7 @@ dispatch(fetchComplaints())
      
      isloading?(
 
-  <><h5 style={{color: dark_green}}>جار تحميل البيانات.........</h5></>
+  <><h5 style={{color: dark_green ,textAlign:'center'}}>جار تحميل البيانات.........</h5></>
      ):
      error?(
         <Typography color="error">{error}</Typography>
@@ -76,12 +66,19 @@ dispatch(fetchComplaints())
      complaints?.data?.data && complaints?.data?.data.length > 0 ? (
           complaints?.data?.data.map((complaint) => (
         <Grid  sx={(theme) => ({
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.background.default,mb:3,
   })}              key={complaint.id}
  item xs={12} sm={6} md={3}>
-          <Card sx={ {bgcolor: 'background.main',mt:3, height: "100%", display: "flex", flexDirection: "column" ,borderRadius:'8%',boxShadow:`4px 2px 3px ${dark_green}`}}>
+          <Card sx={ {bgcolor: 'background.main',mt:3, height: "100%", display: "flex", boxShadow: 5 , flexDirection: "column" ,borderRadius:'8%',border:`solid ${dark_green} `
+        ,transition: "0.3s",
+                "&:hover": {
+                  transform: "translateY(-5px)",
+                  boxShadow: 10,
+                },
+        
+        }}>
            
-            <Box
+            {/* <Box
         sx={{
                        
 
@@ -94,7 +91,7 @@ dispatch(fetchComplaints())
       > 
 
 
-</Box>
+</Box> */}
    
             <CardContent sx={{ flexGrow: 1 }}>
                   <Typography
@@ -111,15 +108,17 @@ dispatch(fetchComplaints())
                   <Typography variant="subtitle1" color="text.secondary">
                     المستخدم: {complaint.user_name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    تاريخ الإنشاء:                   {new Date(complaint.created_at).toLocaleDateString()}
 
-                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+تاريخ الإنشاء: {new Date(complaint.created_at).toLocaleDateString()}                  </Typography>
             </CardContent>
             <CardActions>
               <Button
-onClick={() => setOpenModal(true)}
-fullWidth            
+onClick={() => {
+    setSelectedId(complaint.id);
+    setOpenModal(true);
+  }}
+  fullWidth            
   variant="contained"
                 sx={{backgroundColor:dark_green ,color:defult}}
               >
@@ -138,11 +137,12 @@ fullWidth
     
     }
     </Grid>
-    <ComplaintDetails
+   <ComplaintHistoryDetails
   open={openModal}
   onClose={() => setOpenModal(false)}
-  complaint={complaintData}
+  complaintId={selectedId}
 />
+
         </>
     )
 }

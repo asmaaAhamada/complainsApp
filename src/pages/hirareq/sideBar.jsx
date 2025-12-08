@@ -17,6 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Outlet, useLocation } from 'react-router-dom';
 //icon
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 
 
@@ -35,7 +36,7 @@ function SidPar(props) {
   console.log(userInfo?.name);
   console.log(userInfo?.role);
 
-const pages = [
+const adminPages  = [
   { label: "لوحة التحكم", path: "/app/dashboard" },
   { label: "الشكاوي", path: "/app/complaints" },
     { label: "الموظفين", path: "/app/employees" },
@@ -43,11 +44,22 @@ const pages = [
 
 ];
 
+const employeePages = [
+  { label: "الشكاوي الواردة", path: "/app/complaint" },
+  { label: "لوحة الموظف", path: "/app/panel" },
+];
+
+const pages = userInfo?.role === "المشرف العام" 
+  ? adminPages 
+  : employeePages;
 
 const iconsMap = {
   'لوحة التحكم': <DashboardIcon  fontSize="large"  />,
   'الشكاوي': <PrivacyTipIcon   fontSize="large"  />,
     'الموظفين': <PeopleAltIcon   fontSize="large"  />,
+  'الشكاوي الواردة': <PrivacyTipIcon   fontSize="large"  />,
+  'لوحة الموظف': <DashboardIcon  fontSize="large"  />,
+  'الجهات الحكومية': <AccountBalanceIcon  fontSize="large"  />,
 
 };
 

@@ -11,7 +11,7 @@ import { IconButton, Stack, Chip, Box, Button, CircularProgress, Grid, Card, Car
 import { dark_green, defult } from "../../../colors/colorsApp";
 import Search from "../../hirareq/search";
 import { useDispatch, useSelector } from "react-redux";
-import NoData from "../../../empty/no data";
+import NoData from "../../emptyData/no data";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchGonverment } from "../../../slices/gonvernment/fetchgonverment";
 import ADD_Gonvermentss from "./addGonverment";
@@ -81,7 +81,7 @@ function handleadd(){
     <Box sx={{ width: "100%", textAlign: "center", mt: 4 }}>
       <CircularProgress />
     </Box>
-  ) : Array.isArray(data) && data.length === 0 ? (
+  ) : Array.isArray(data) && data.length === 0 && !isLoading? (
     <NoData />
   ) : (
     data?.data.map((item) => (

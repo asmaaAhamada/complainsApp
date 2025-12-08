@@ -14,7 +14,7 @@ import ADD_EMPLOYEES from "./addEmployees";
 import Edit_EMPLOYEES from "./editEmployees";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmployees } from "../../../slices/employees/fetchEmployees";
-import NoData from "../../../empty/no data";
+import NoData from "../../emptyData/no data";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteEmployees from "./deletEmployees";
 

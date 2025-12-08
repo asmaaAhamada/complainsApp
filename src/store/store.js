@@ -11,6 +11,8 @@ import StatisticsReducer from "../slices/victory/adminSatics"
 import Add_GonvermentsReducer from "../slices/gonvernment/addGonverment"
 import deletGonvermentsReducer from "../slices/gonvernment/deletGonverments"
 import Edit_GonvermentsReducer from "../slices/gonvernment/Edit_Gonverments"
+import incomingComplaintsReducer from "../slices/manegerAdmin/incomingcomplaints"
+import fetchComplaintsHistoryReducer from "../slices/complaints/history"
 export default configureStore({
   reducer: {
     Log_in:Log_inReducer,
@@ -24,6 +26,8 @@ export default configureStore({
     Statistics:StatisticsReducer,
     Add_Gonverments:Add_GonvermentsReducer,
     deletGonverments:deletGonvermentsReducer,
-    Edit_Gonverments:Edit_GonvermentsReducer
+    Edit_Gonverments:Edit_GonvermentsReducer,
+    incomingComplaints:incomingComplaintsReducer,
+    fetchComplaintsHistory:fetchComplaintsHistoryReducer
   }
 })
