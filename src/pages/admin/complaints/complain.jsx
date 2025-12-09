@@ -1,5 +1,4 @@
 
-
 import {
   Grid,
   Card,
@@ -13,7 +12,6 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { dark_green, defult } from "../../../colors/colorsApp";
-import ComplaintDetails from "../../employeePage/details";
 import { useEffect, useState } from "react";
 import Search from "../../hirareq/search";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +24,34 @@ import NoComplaints from "../../emptyData/complaints";
 
 
 
+
+ 
 export default function ComplaintsPage(){
+
+   const { data: searchResults, isloading: searchLoading } = useSelector(
+    (state) => state.search
+  );
+
+  
+
+
+          const [searchTerm, setSearchTerm] = useState("");
+
+
+
+
+          // لو في بحث استخدم نتائجه، غير هيك اعرض البيانات الأصلية
+const specliseToDisplay = searchTerm
+  ? Array.isArray(searchResults)
+    ? Array.isArray(searchResults[0])
+      ? searchResults[0]   // حالة nested array مثل اللي عندك
+      : searchResults
+    : []
+  : Array.isArray(state.data)
+    ? state.data
+    : [];
+ 
+
     //state
   const complaintsState = useSelector((state) => state.fetchComplaints);
       const { data: complaints, isloading, error } = complaintsState;
@@ -52,7 +77,12 @@ dispatch(fetchComplaints())
      
      isloading?(
 
-  <><h5 style={{color: dark_green ,textAlign:'center'}}>جار تحميل البيانات.........</h5></>
+  <><h5 style={{color: dark_green ,textAlign:'center'}}>
+    
+     <Box sx={{ textAlign: "center", mt: 5 }}>
+            <CircularProgress />
+          </Box>
+    </h5></>
      ):
      error?(
         <Typography color="error">{error}</Typography>

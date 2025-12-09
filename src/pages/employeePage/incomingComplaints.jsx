@@ -7,11 +7,12 @@ import ComplaintDetailsModal from "./ComplaintDetailsModal";
 import ComplaintCard from "./ComplaintCard";
 import { Toggle } from "../../slices/manegerAdmin/toglleStatus";
 import { Snackbar, Alert } from "@mui/material";
+import { dark_green } from "../../colors/colorsApp";
 
 export default function Incoming_Complaints() {
   const dispatch = useDispatch();
   const { data, isloading, page } = useSelector((state) => state.incomingComplaints);
-console.log(data)
+// console.log(data)
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openAddNote, setOpenAddNote] = useState(false);
@@ -27,9 +28,9 @@ const [successMessage, setSuccessMessage] = useState("");
  const complaints = data?.data?.data ;
 const meta = data?.data?.meta || {};
 const links = data?.data?.links || {};
-console.log("complaints:", complaints);
-console.log("meta:", meta);
-console.log("links:", links);
+// console.log("complaints:", complaints);
+// console.log("meta:", meta);
+// console.log("links:", links);
 
 
   // --- Buttons Actions ----
@@ -63,7 +64,7 @@ const handleChangeStatus = (id) => {
   if (isloading)
     return (
       <Box sx={{ textAlign: "center", mt: 5 }}>
-        <CircularProgress />
+        <CircularProgress sx={{color:dark_green}} />
       </Box>
     );
 
@@ -80,9 +81,7 @@ const handleChangeStatus = (id) => {
   </Alert>
 </Snackbar>
 
-      <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
-        الشكاوي الواردة
-      </Typography>
+      
 
 {!complaints || complaints.length === 0 ? (
         <Typography sx={{ mt: 4, textAlign: "center", color: "gray" }}>

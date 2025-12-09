@@ -115,7 +115,8 @@ export default function ComplaintHistoryDetails({ open, onClose, complaintId }) 
                   </Typography>
 
                   <Typography color="black" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <ScheduleIcon fontSize="small" /> التاريخ: {new Date(complaint.created_at).toLocaleDateString()}
+                    <ScheduleIcon fontSize="small" /> 
+                    التاريخ: {new Date(complaint.created_at).toLocaleDateString()}
                   </Typography>
 
                   <Chip

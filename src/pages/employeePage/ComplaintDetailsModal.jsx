@@ -7,7 +7,10 @@ import {
   Typography,
   CircularProgress,
   Box,
-  Grid
+  Grid,
+  Snackbar,
+  Alert,
+  IconButton
 } from "@mui/material";
 
 import {
@@ -22,19 +25,47 @@ import {
   UpdateOutlined,
   AttachFileOutlined
 } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { fetchComplaintsincoming } from "../../slices/manegerAdmin/details";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { dark_green } from "../../colors/colorsApp";
+import { useEffect, useState } from "react";
+import { dark_green, light_green, red } from "../../colors/colorsApp";
+import { Edit_Status, setformInfo } from "../../slices/manegerAdmin/editStatus";
 
 export default function ComplaintDetailsModal({ open, onClose, complaintId }) {
   const dispatch = useDispatch();
-
+const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { data, isloading, error } = useSelector(
     (state) => state.fetchComplaintsincoming
   );
 
+//Edit_Status
+  const status = useSelector((state) => state.Edit_Status.formInfo.status);
+console.log(status);
+const {  Loading, Error } = useSelector(
+  (state) => state.Edit_Status
+);
+
+  
+function handleEdit(newStatus) {
+  dispatch(setformInfo({ status: newStatus })); // ← تحديث الحالة
+  return dispatch(Edit_Status(complaintId))
+    .then((response) => {
+if (response.meta.requestStatus === "fulfilled"){
+        setSuccessMessage("تم تعديل الحالة بنجاح ✔");
+        onClose();
+      } else {
+        setErrorMessage(response.payload || "حدث خطأ أثناء تعديل الحالة ❌");
+      }
+    });
+}
+
+
+
+
+//Edit_Status///////////////////
   useEffect(() => {
     if (open && complaintId) {
       dispatch(fetchComplaintsincoming(complaintId));
@@ -69,11 +100,17 @@ export default function ComplaintDetailsModal({ open, onClose, complaintId }) {
   );
 
   return (
+    <>
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{ color: dark_green, fontWeight: "bold" }}>
         تفاصيل الشكوى
       </DialogTitle>
-
+ <IconButton
+          onClick={onClose}
+          sx={{ position: "absolute", left: 16, top: 16, color: dark_green }}
+        >
+          <CloseIcon />
+        </IconButton>
       <DialogContent>
         <Grid container spacing={3}>
 
@@ -90,8 +127,8 @@ export default function ComplaintDetailsModal({ open, onClose, complaintId }) {
           <Grid item xs={12} md={6}>
             {infoItem(<Description />, "الوصف:", complaint.problem_description)}
             {infoItem(<PlaceOutlined />, "الوصف المكاني:", complaint.location_description)}
-            {infoItem(<ScheduleOutlined />, "تاريخ الإنشاء:", complaint.created_at)}
-            {infoItem(<UpdateOutlined />, "تاريخ التعديل:", complaint.updated_at)}
+            {infoItem(<ScheduleOutlined />, "تاريخ الإنشاء:",  new Date(complaint.created_at).toLocaleDateString())}
+            {infoItem(<UpdateOutlined />, "تاريخ التعديل:", new Date(complaint.updated_at).toLocaleDateString())}
             {infoItem(
               <AttachFileOutlined />,
               "المرفقات:",
@@ -105,18 +142,55 @@ export default function ComplaintDetailsModal({ open, onClose, complaintId }) {
       </DialogContent>
 
       <DialogActions>
-        <Button
-          onClick={onClose}
-          variant="contained"
-          sx={{
-            backgroundColor: dark_green,
-            color: "white",
-            "&:hover": { backgroundColor: "#0b5f3a" }
-          }}
-        >
-          إغلاق
-        </Button>
+       
+        <Button sx={{backgroundColor:dark_green}} 
+        disabled={Loading}
+         onClick={async () => {
+    try {
+      await handleEdit( "منجزة");
+      onClose();
+    } catch {
+    }
+  }}
+        
+        variant="outlined">
+                    قبول
+                  </Button>
+                  <Button 
+                  
+                   
+         onClick={async () => {
+    try {
+      await handleEdit( "مرفوضة");
+      onClose();
+    } catch {
+    }
+  }}
+                  
+                  variant="contained" sx={{color:red}} disabled={Loading}>
+                    رفض
+                  </Button>
       </DialogActions>
     </Dialog>
+    {/* Snackbar نجاح */}
+          <Snackbar
+            open={Boolean(successMessage)}
+            autoHideDuration={3000}
+            onClose={() => setSuccessMessage("")}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
+            <Alert severity="success" variant="filled">{successMessage}</Alert>
+          </Snackbar>
+    
+          {/* Snackbar خطأ */}
+          <Snackbar
+            open={Boolean(errorMessage)}
+            autoHideDuration={3000}
+            onClose={() => setErrorMessage("")}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
+            <Alert severity="error" variant="filled">{errorMessage}</Alert>
+          </Snackbar>
+          </>
   );
 }

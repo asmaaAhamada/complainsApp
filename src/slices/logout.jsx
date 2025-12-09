@@ -10,8 +10,7 @@ import { BaseUrl, LOG_IN } from '../Back_end/Api';
 const initialState = {
   formInfo: {
     
-    email: '',
-    password: '',
+   
    
   },
   isLoading: false,
@@ -19,16 +18,15 @@ const initialState = {
   
 };
 
-export const Log_in = createAsyncThunk(
-  'Log_in/Log_in',
+export const Log_out = createAsyncThunk(
+  'Log_in/Log_out',
   async (_, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-      const {  email, password } = state.Log_in.formInfo;
 
     
 
-      const response = await postNoToken(`${BaseUrl}${LOG_IN}`,  {  email, password }, {}, true);
+      const response = await postNoToken(`${BaseUrl}${LOG_IN}`,  {}, true);
       console.log("📦 login response:", response);
 const data = response.data;
       const token = data.token;
@@ -50,7 +48,7 @@ return user
 );
 
 const formSlice = createSlice({
-  name: 'Log_in',
+  name: 'Log_out',
   initialState,
   reducers: {
     setformInfo: (state, action) => {
@@ -63,15 +61,15 @@ const formSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(Log_in.pending, (state) => {
+      .addCase(Log_out.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(Log_in.fulfilled, (state, action) => {
+      .addCase(Log_out.fulfilled, (state, action) => {
         state.isLoading = false;
   state.user = action.payload;
       })
-      .addCase(Log_in.rejected, (state, action) => {
+      .addCase(Log_out.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

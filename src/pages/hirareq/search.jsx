@@ -1,10 +1,19 @@
-import { Avatar, Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
+import { useState } from "react";
 
-export default function Search(){
+export default function Search({onSearch}){
+    const [search, setsearch] = useState("");
+  
 return(
     <>
     
-             <TextField  sx={{
+             <TextField  
+             value={search}
+      onChange={(e) => {
+        setsearch(e.target.value);
+        onSearch(e.target.value); 
+      }}
+        sx={{
           width: '80%', // الوضع العادي
           '@media (max-width:900px)': {
             width: '50%', // شاشة متوسطة

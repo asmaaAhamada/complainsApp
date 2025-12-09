@@ -78,9 +78,9 @@ function handleadd(){
   {error ? (
     <Box>{error}</Box>
   ) : isLoading ? (
-    <Box sx={{ width: "100%", textAlign: "center", mt: 4 }}>
-      <CircularProgress />
-    </Box>
+     <Box sx={{ textAlign: "center", mt: 5 }}>
+            <CircularProgress />
+          </Box>
   ) : Array.isArray(data) && data.length === 0 && !isLoading? (
     <NoData />
   ) : (

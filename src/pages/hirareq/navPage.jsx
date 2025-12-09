@@ -6,7 +6,11 @@ import { dark_green, defult, white_primary } from "../../colors/colorsApp";
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Log_outModal from "../logout";
+import { useState } from "react";
 export default function NavPage() {
+    const[ShowEdit,setShowEdit]= useState(false)
+
   const theme = useTheme();
 
   return (
@@ -23,7 +27,7 @@ export default function NavPage() {
 نظام الشكاوي الحكومي          </Typography>
 
 
-        <Button>
+        <Button onClick={()=>{setShowEdit(true)}}>
           تسجيل الخروج
           <LogoutIcon fontSize="large" />
         </Button>
@@ -31,6 +35,9 @@ export default function NavPage() {
          
         </Toolbar>
       </AppBar>
+       {<Log_outModal open={ShowEdit}
+  onClose={() => setShowEdit(false)}/>}
     </Box>
+    
   );
 }

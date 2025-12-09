@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import Log_inReducer from "../slices/log_in_Slice"
+import Log_outReducer from '../slices/logout'
+import Log_inReducer from '../slices/log_in_Slice'
+
 import userReducer from "../slices/userInfo"
 import fetchComplaintsReducer from "../slices/complaints/fetch"
 import fetchGonvermentReducer from "../slices/gonvernment/fetchgonverment"
@@ -17,9 +19,12 @@ import Employees_StatisticsReducer from "../slices/victory/employeesSatics"
 import fetchComplaintsincomingReducer from "../slices/manegerAdmin/details"
 import notifyReducer from  "../slices/manegerAdmin/notify"
 import ToggleReducer from "../slices/manegerAdmin/toglleStatus"
+import Edit_StatusReducer from "../slices/manegerAdmin/editStatus"
+import SearchComplaintsReducer from "../slices/search/complaints"
 export default configureStore({
   reducer: {
     Log_in:Log_inReducer,
+    Log_out:Log_outReducer,
     user:userReducer,
     fetchComplaints:fetchComplaintsReducer,
     fetchGonverment:fetchGonvermentReducer,
@@ -36,6 +41,8 @@ export default configureStore({
     Employees_Statistics:Employees_StatisticsReducer,
     fetchComplaintsincoming:fetchComplaintsincomingReducer,
     notify:notifyReducer,
-    Toggle:ToggleReducer
+    Toggle:ToggleReducer,
+    Edit_Status:Edit_StatusReducer,
+    SearchComplaints:SearchComplaintsReducer,
   }
 })

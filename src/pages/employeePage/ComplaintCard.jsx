@@ -26,10 +26,8 @@ export default function ComplaintCard({ complaint, onView, onAddNote, onChangeSt
 <Typography color={dark_green} variant="body2" sx={{ mt: 1 }}>
   مقدم الشكوى: {complaint.user_name}
 </Typography>
-
 <Typography  color={dark_green} variant="body2" sx={{ mt: 1 }}>
-  التاريخ: {complaint.created_at}
-</Typography>
+التاريخ: {new Date(complaint.created_at).toLocaleDateString()}</Typography>
 
         <Box sx={{ mt: 2 }}>
           <Chip
