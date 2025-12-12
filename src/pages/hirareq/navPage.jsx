@@ -9,7 +9,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Log_outModal from "../logout";
 import { useState } from "react";
 export default function NavPage() {
-    const[ShowEdit,setShowEdit]= useState(false)
 
   const theme = useTheme();
 
@@ -27,16 +26,11 @@ export default function NavPage() {
 نظام الشكاوي الحكومي          </Typography>
 
 
-        <Button onClick={()=>{setShowEdit(true)}}>
-          تسجيل الخروج
-          <LogoutIcon fontSize="large" />
-        </Button>
-<NotificationsIcon fontSize="large" sx={{color:defult}}/>
+       
          
         </Toolbar>
       </AppBar>
-       {<Log_outModal open={ShowEdit}
-  onClose={() => setShowEdit(false)}/>}
+       
     </Box>
     
   );

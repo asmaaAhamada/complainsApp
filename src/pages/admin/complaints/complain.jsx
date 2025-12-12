@@ -70,19 +70,19 @@ dispatch(fetchComplaints())
     
     return(
         <>
-        <Search/>
+       
          <Grid  container spacing={3}>
      {
      
      
      isloading?(
 
-  <><h5 style={{color: dark_green ,textAlign:'center'}}>
+  <>
     
      <Box sx={{ textAlign: "center", mt: 5 }}>
-            <CircularProgress />
+            <CircularProgress sx={{color:dark_green}} />
           </Box>
-    </h5></>
+    </>
      ):
      error?(
         <Typography color="error">{error}</Typography>

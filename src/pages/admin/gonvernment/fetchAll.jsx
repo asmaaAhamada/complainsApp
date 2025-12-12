@@ -55,7 +55,7 @@ function handleadd(){
   return (
     <>
     <Box sx={{display:'flex' ,justifyContent:'Space_between' ,mb:2}}>
-    <Search/>
+   
      <Button
      onClick={handleadd}
   variant="contained"
@@ -65,8 +65,8 @@ function handleadd(){
     fontSize: { xs: "18px", sm: "20px", md: "24px" },
     fontWeight: "700",
     mt: { xs: "5%", sm: "15%", md: "5%" },
-    width: { xs: "50%", sm: "40%", md: "80%" },
-    mb: 2,
+    width: { xs: "30%", sm: "20%", md: "40%" },
+    mb: 2,backgroundColor:dark_green,color:defult,
     textTransform: "none",
   }}
 >

@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import Cookies from 'universal-cookie';
 
 import Cookies from 'universal-cookie';
-import { postNoToken } from '../Back_end/ApiServecies';
-import { BaseUrl, LOG_IN } from '../Back_end/Api';
+import { postData, postNoToken } from '../Back_end/ApiServecies';
+import { BaseUrl, LOG_IN, LOG_OUT } from '../Back_end/Api';
 
 
 const initialState = {
@@ -26,17 +26,11 @@ export const Log_out = createAsyncThunk(
 
     
 
-      const response = await postNoToken(`${BaseUrl}${LOG_IN}`,  {}, true);
+      const response = await postData(`${BaseUrl}${LOG_OUT}`,  {}, true);
       console.log("📦 login response:", response);
-const data = response.data;
-      const token = data.token;
-      const user = data.user;
-      const cookies = new Cookies();
-      cookies.set('token', token, {
-        path: '/',
-        maxAge: 86400, // يوم واحد
-      });
-return user
+
+return response;
+
 
 
 

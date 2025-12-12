@@ -20,3 +20,4 @@ export const Toggle_Status='toggle-status/'
 export const Status ='status/'
 export const SEARCH ='search'
 
+export const LOG_OUT='logout'

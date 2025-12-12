@@ -9,6 +9,8 @@ const initialState = {
   formInfo: {
     name:'',
     email: '',
+        originalEmail: "",   // ← تضيفي هذا
+
     password: '',
     password_confirmation:'',
   
@@ -27,31 +29,26 @@ export const Edit_Employees = createAsyncThunk(
     try {
       const state = getState();
 
-      const {
-        name,
-        email,
-        password,
-        password_confirmation,
-        phone,
-        government_entity_id
-      } = state.Edit_Employees.formInfo;
+      const { name, email, originalEmail, password, password_confirmation, phone, government_entity_id } 
+  = state.Edit_Employees.formInfo;
 
-     const body = {
-  name,
-  email,
-  phone
-};
+  const body = {};
 
-// ✅ لا ترسل الجهة إلا إذا كانت رقم حقيقي
+if (name) body.name = name;
+if (email && email !== originalEmail) {
+  body.email = email;
+}
+if (phone) body.phone = phone;
+
 if (government_entity_id) {
   body.government_entity_id = Number(government_entity_id);
 }
 
-// ✅ لا ترسل كلمة المرور إذا لم تعدل
 if (password && password_confirmation) {
   body.password = password;
   body.password_confirmation = password_confirmation;
 }
+
 
 
       console.log("🚀 Sending Data:", body);
@@ -62,14 +59,16 @@ if (password && password_confirmation) {
         {},
         true
       );
-
+console.log(  `${BaseUrl}${Employees}${EDITE}${employeeId}`)
       return response;
 
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || 'فشل التعديل'
-      );
-    }
+  console.log("🔥 FULL ERROR:", error);
+  return rejectWithValue(
+    error?.response?.data?.message || 'فشل التعديل'
+  );
+}
+
   }
 );
 

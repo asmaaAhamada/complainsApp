@@ -190,6 +190,10 @@ useEffect(() => {
                 name="department"
                 value={selectedDepartmentId}
                 onChange={(e) => setSelectedDepartmentId(e.target.value)}
+                 sx={{
+    color: "black", // النص بعد الاختيار يكون أسود
+    "& .MuiSelect-icon": { color: "black" }, // السهم أسود
+  }}
               >
                 {departments.data?.map((dep) => (
                   <MenuItem sx={{ color: "black" }} key={dep.id} value={dep.id}>

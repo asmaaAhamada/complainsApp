@@ -23,14 +23,19 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { Avatar, IconButton } from '@mui/material';
+import { Avatar, Button, IconButton } from '@mui/material';
 import { dark_green, defult } from '../../colors/colorsApp';
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useSelector } from 'react-redux';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Log_outModal from '../logout';
+
 const drawerWidth = 240;
 
 function SidPar(props) {
+      const[ShowEdit,setShowEdit]= React.useState(false)
+  
    const { userInfo } = useSelector((state) => state.user);
   
   console.log(userInfo?.name);
@@ -176,6 +181,10 @@ const location = useLocation();
   
     <Box sx={{ fontWeight: "bold", fontSize: "14px" }}>{userInfo?.name}</Box>
     <Box sx={{ fontSize: "12px", opacity: 0.8 }}>{userInfo?.role}</Box>
+      <Button onClick={()=>{setShowEdit(true)}}>
+              تسجيل الخروج
+              <LogoutIcon fontSize="large" />
+            </Button>
   </Box>
         </Drawer>
       
@@ -192,9 +201,11 @@ const location = useLocation();
       >
         <Toolbar />
         <Outlet />
-
+{<Log_outModal open={ShowEdit}
+  onClose={() => setShowEdit(false)}/>}
       </Box>
     </Box>
+    
   );
 }
 

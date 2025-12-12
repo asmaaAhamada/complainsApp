@@ -12,6 +12,8 @@ import {
   Select,
   MenuItem,
   CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
@@ -32,194 +34,189 @@ const style = {
   borderRadius: 3,
 };
 
-export default function Edit_EMPLOYEES({ open, onClose ,employee}) {
-const { data: departments } = useSelector((state) => state.fetchGonverment);
-  const { name,email, password ,password_confirmation ,phone} = useSelector((state) => state.Edit_Employees.formInfo);
-const { isLoading, error,success } = useSelector((state) => state.Edit_Employees);
+export default function Edit_EMPLOYEES({ open, onClose, employee, onSuccess }) {
+  const { data: departments } = useSelector((state) => state.fetchGonverment);
+  const { name, email, password, password_confirmation, phone } =
+    useSelector((state) => state.Edit_Employees.formInfo);
+  const { isLoading, error, success } = useSelector((state) => state.Edit_Employees);
+
   const dispatch = useDispatch();
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState("");
 
+  // تعبئة البيانات عند فتح المودال
+  useEffect(() => {
+    if (employee) {
+      dispatch(
+        setformInfo({
+          name: employee.name || "",
+          email: employee.email || "",
+          originalEmail: employee.email || "",
+          phone: employee.phone || "",
+          password: "",
+          password_confirmation: "",
+          government_entity_id: employee.government_entity_id || "",
+        })
+      );
+      setSelectedDepartmentId(employee.government_entity_id || "");
+    }
+  }, [employee, dispatch]);
 
+  // عند نجاح عملية التعديل
+  useEffect(() => {
+    if (success) {
+      setShowSuccess(true); // عرض رسالة النجاح
+      if (onSuccess) onSuccess(); // إعادة تحميل الموظفين
+      dispatch(resetForm()); // تصفير حقول الفورم
+      onClose(); // إغلاق المودال
+    }
+  }, [success, dispatch, onClose, onSuccess]);
 
+  // جلب الجهات الحكومية
+  useEffect(() => {
+    dispatch(fetchGonverment());
+  }, [dispatch]);
 
-
-useEffect(() => {
-  if (employee) {
-    dispatch(setformInfo({
-      name: employee.name || "",
-      email: employee.email || "",
-      phone: employee.phone || "",
-      password: "",
-      password_confirmation: "",
-      government_entity_id: employee.government_entity_id || ""
-    }));
-
-    setSelectedDepartmentId(employee.government_entity_id || "");
+  function handlEditeEmployees(employeeId) {
+    dispatch(Edit_Employees(employeeId));
   }
-}, [employee, dispatch]);
-
-
-
-
-useEffect(() => {
-  if(employee){
-    // alert(id)
-  }
-  if (success) {
-    alert("تمت إضافة الموظف بنجاح!");
-    dispatch(resetForm());
-    onClose(); // يغلق المودال
-  }
-}, [success, dispatch, onClose]);
-const [selectedDepartmentId, setSelectedDepartmentId] = useState('');
-
-
-useEffect(() => {
-  dispatch(fetchGonverment());
-}, [dispatch]);
-
-
- function handlEditeEmployees(government_entity_id) {
- 
-  dispatch(Edit_Employees(government_entity_id));
-}
-
 
   return (
-
-<>
-    {error && (
-  <Box
-    sx={{
-      position: "fixed",
-      top: 10,
-      left: "50%",
-      transform: "translateX(-50%)",
-      bgcolor: "error.main",
-      color: "#fff",
-      p: 2,
-      borderRadius: 2,
-      zIndex: 1300, 
-      boxShadow: 3,
-    }}
-  >
-    {error}
-  </Box>
-)}
-
-
-
-    <Modal open={open} onClose={onClose}>
-    
-      <Box sx={style}>
-        {/* Header */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-          <Typography sx={{color:dark_green}} variant="h6">تعديل موظف</Typography>
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
+    <>
+      {/* رسالة الخطأ */}
+      {error && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 10,
+            left: "50%",
+            transform: "translateX(-50%)",
+            bgcolor: "error.main",
+            color: "#fff",
+            p: 2,
+            borderRadius: 2,
+            zIndex: 1300,
+            boxShadow: 3,
+          }}
+        >
+          {error}
         </Box>
+      )}
 
-        <Divider sx={{ mb: 2 }} />
+      {/* Snackbar النجاح (خارج المودال) */}
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="success" variant="filled">
+          تم تعديل الموظف بنجاح
+        </Alert>
+      </Snackbar>
 
-        {/* Form */}
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="الاسم"
-              name="name"
-            value={name}
-           onChange={(e) => dispatch(setformInfo({ name: e.target.value }))}
-                      sx={{ input: { color: "black" }}}
+      {/* المودال */}
+      <Modal open={open} onClose={onClose}>
+        <Box sx={style}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+            <Typography sx={{ color: dark_green }} variant="h6">
+              تعديل موظف
+            </Typography>
+            <IconButton onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
-            />
+          <Divider sx={{ mb: 2 }} />
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="الاسم"
+                value={name}
+                onChange={(e) => dispatch(setformInfo({ name: e.target.value }))}
+                sx={{ input: { color: "black" } }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="البريد الإلكتروني"
+                value={email}
+                onChange={(e) => dispatch(setformInfo({ email: e.target.value }))}
+                sx={{ input: { color: "black" } }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="كلمة المرور"
+                type="password"
+                value={password}
+                onChange={(e) => dispatch(setformInfo({ password: e.target.value }))}
+                sx={{ input: { color: "black" } }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="تأكيد كلمة المرور"
+                type="password"
+                value={password_confirmation}
+                onChange={(e) => dispatch(setformInfo({ password_confirmation: e.target.value }))}
+                sx={{ input: { color: "black" } }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel>الجهة</InputLabel>
+                 <Select
+  value={selectedDepartmentId}
+  onChange={(e) => {
+    setSelectedDepartmentId(e.target.value);
+    dispatch(setformInfo({ government_entity_id: e.target.value }));
+  }}
+  sx={{
+    color: "black", // النص بعد الاختيار يكون أسود
+    "& .MuiSelect-icon": { color: "black" }, // السهم أسود
+  }}
+>
+                  {departments.data?.map((dep) => (
+                    <MenuItem  sx={{ color: "black" }} key={dep.id} value={dep.id}>
+                      {dep.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="الهاتف"
+                value={phone}
+                onChange={(e) => dispatch(setformInfo({ phone: e.target.value }))}
+                sx={{ input: { color: "black" } }}
+              />
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="البريد الإلكتروني"
-              name="email"
-              value={email}
-             onChange={(e) => dispatch(setformInfo({ email: e.target.value }))}
-                        sx={{ input: { color: "black" }}}
-
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="كلمة المرور"
-              type="password"
-              name="password"
-           value={password}
-          onChange={(e) => dispatch(setformInfo({ password: e.target.value }))}
-                     sx={{ input: { color: "black" }}}
-
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="تأكيد كلمة المرور"
-              type="password"
-              name="confirmPassword"
-            value={password_confirmation}
-           onChange={(e) => dispatch(setformInfo({ password_confirmation: e.target.value }))}
-           sx={{ input: { color: "black" }}}
-            />
-          </Grid>
-
-          {/* Dropdown لاختيار الجهة */}
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>الجهة</InputLabel>
-              <Select
-                name="department"
-                value={selectedDepartmentId}
-onChange={(e) => {
-  setSelectedDepartmentId(e.target.value);
-  dispatch(setformInfo({ government_entity_id: e.target.value }));
-}}
-              >
-                {departments.data?.map((dep) => (
-                  <MenuItem sx={{ color: "black" }} key={dep.id} value={dep.id}>
-                    {dep.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="الهاتف"
-              name="phone"
-              value={phone }
-              onChange={(e) => dispatch(setformInfo({ phone: e.target.value }))}
-                         sx={{ input: { color: "black" }}}
-
-            />
-          </Grid>
-        
-        </Grid>
-
-        {/* زر الإضافة */}
-        <Box sx={{ mt: 3, textAlign: "center" }}>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: dark_green ,width:'100%'}}
-            onClick={()=>{handlEditeEmployees(employee.id)}}
-          >
-            {isLoading? <CircularProgress/> :"حفظ"}
-            
-          </Button>
+          <Box sx={{ mt: 3, textAlign: "center" }}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: dark_green, width: "100%" }}
+              onClick={() => handlEditeEmployees(employee.id)}
+            >
+              {isLoading ? <CircularProgress /> : "حفظ"}
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
     </>
   );
 }

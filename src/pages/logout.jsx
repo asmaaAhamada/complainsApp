@@ -15,10 +15,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { dark_green } from "../colors/colorsApp";
+import { useDispatch, useSelector } from "react-redux";
+import { Log_out } from "../slices/logout";
 
 
 
@@ -27,21 +31,36 @@ import { dark_green } from "../colors/colorsApp";
 
 export default function Log_outModal({ open, onClose ,onSuccess}) {
 
+
+const {isLoading ,error}=useSelector((state)=>state.Log_out)
+const dispatch=useDispatch()
+  const [successMessage, setSuccessMessage] = useState("");
+
+
+
+
+
 const navigate = useNavigate();
 
 
- function handleLogout(){
-   
-
-      onClose(); // إغلاق المودال
-      navigate("/login", { replace: true }); // التوجيه لصفحة تسجيل الدخول
-    }
+ function handleLogout() {
+  dispatch(Log_out())
+    .unwrap()
+    .then(() => {
+      setSuccessMessage("تم تسجيل الخروج بنجاح ✔");
+      onClose();
+      navigate("/login", { replace: true });
+    })
+    .catch((err) => {
+      console.error("Logout failed:", err);
+    });
+}
 
   
      
   return (
     <>
-      {/* {error && (
+      {error && (
         <Box
           sx={{
             position: "fixed",
@@ -62,7 +81,7 @@ const navigate = useNavigate();
         >
           {error}
         </Box>
-      )} */}
+      )}
 
       <Dialog
           open={open}
@@ -89,8 +108,8 @@ const navigate = useNavigate();
               autoFocus
                onClick={handleLogout}
             >
-              {/* {load ? <CircularProgress/>:"موافق"} */}
-              df
+              {isLoading ? <CircularProgress/>:"موافق"}
+              
             </Button>
             <Button
               onClick={onClose}
@@ -106,7 +125,14 @@ const navigate = useNavigate();
           </DialogActions>
         </Dialog>
 
-         
+          <Snackbar
+                     open={Boolean(successMessage)}
+                     autoHideDuration={3000}
+                     onClose={() => setSuccessMessage("")}
+                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                   >
+                     <Alert severity="success" variant="filled">{successMessage}</Alert>
+                   </Snackbar>
 
     </>
   );

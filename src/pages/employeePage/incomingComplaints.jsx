@@ -8,11 +8,21 @@ import ComplaintCard from "./ComplaintCard";
 import { Toggle } from "../../slices/manegerAdmin/toglleStatus";
 import { Snackbar, Alert } from "@mui/material";
 import { dark_green } from "../../colors/colorsApp";
+import Search from "../hirareq/search";
 
 export default function Incoming_Complaints() {
+
+
+
+
+
+
+
+          const [searchTerm, setSearchTerm] = useState("");
+
   const dispatch = useDispatch();
   const { data, isloading, page } = useSelector((state) => state.incomingComplaints);
-// console.log(data)
+console.log(data)
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openAddNote, setOpenAddNote] = useState(false);
@@ -31,8 +41,24 @@ const links = data?.data?.links || {};
 // console.log("complaints:", complaints);
 // console.log("meta:", meta);
 // console.log("links:", links);
+//search
+const searchSlice = useSelector(state => state.SearchComplaints);
+console.log("SLICE:", searchSlice);
 
 
+// const { data: searchResults } = useSelector(
+//     (state) => state.SearchComplaints
+//   );
+
+
+
+
+const hasSearch = searchTerm.trim() !== "";
+
+const resultsToDisplay = hasSearch
+  ? (Array.isArray(searchSlice?.data) ? searchSlice.data : [])
+  : (complaints ?? []);
+////.......serch......///////////
   // --- Buttons Actions ----
   const handleView = (id) => {
       setselectedComplaint_id(id);   
@@ -70,6 +96,7 @@ const handleChangeStatus = (id) => {
 
   return (
     <Box sx={{ p: 3 }}>
+      
         <Snackbar
   open={Boolean(successMessage)}
   autoHideDuration={3000}
@@ -81,23 +108,24 @@ const handleChangeStatus = (id) => {
   </Alert>
 </Snackbar>
 
-      
+       <Search onSearch={setSearchTerm}/>
 
-{!complaints || complaints.length === 0 ? (
-        <Typography sx={{ mt: 4, textAlign: "center", color: "gray" }}>
-          لا توجد شكاوي واردة حالياً.
-        </Typography>
-      ) : (
-        complaints.map((item) => (
-          <ComplaintCard
-            key={item.id}
-            complaint={item}
-onView={() => handleView(item.id)}
-            onAddNote={()=>handleAddNote(item.id)}
-onChangeStatus={() => handleChangeStatus(item.id)}
-          />
-        ))
-      )}
+{resultsToDisplay.length === 0 ? (
+  <Typography sx={{ mt: 4, textAlign: "center", color: "gray" }}>
+    لا توجد شكاوي.
+  </Typography>
+) : (
+  resultsToDisplay.map((item) => (
+    <ComplaintCard
+      key={item.id}
+      complaint={item}
+      onView={() => handleView(item.id)}
+      onAddNote={() => handleAddNote(item.id)}
+      onChangeStatus={() => handleChangeStatus(item.id)}
+    />
+  ))
+)}
+
 
       {/* Pagination */}
       {meta?.last_page > 1 && (
@@ -129,6 +157,8 @@ onChangeStatus={() => handleChangeStatus(item.id)}
         open={openDetails}
         complaintId={selectedComplaint_id}
         onClose={() => setOpenDetails(false)}
+          onSuccess={() => dispatch(incomingComplaints(page))}   
+
       />
 
       <AddNoteModal

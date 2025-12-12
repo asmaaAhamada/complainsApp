@@ -33,7 +33,7 @@ import { useEffect, useState } from "react";
 import { dark_green, light_green, red } from "../../colors/colorsApp";
 import { Edit_Status, setformInfo } from "../../slices/manegerAdmin/editStatus";
 
-export default function ComplaintDetailsModal({ open, onClose, complaintId }) {
+export default function ComplaintDetailsModal({ open, onClose, complaintId ,onSuccess}) {
   const dispatch = useDispatch();
 const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -50,11 +50,12 @@ const {  Loading, Error } = useSelector(
 
   
 function handleEdit(newStatus) {
-  dispatch(setformInfo({ status: newStatus })); // ← تحديث الحالة
+  dispatch(setformInfo({ status: newStatus })); 
   return dispatch(Edit_Status(complaintId))
     .then((response) => {
 if (response.meta.requestStatus === "fulfilled"){
         setSuccessMessage("تم تعديل الحالة بنجاح ✔");
+          if (onSuccess) onSuccess();
         onClose();
       } else {
         setErrorMessage(response.payload || "حدث خطأ أثناء تعديل الحالة ❌");

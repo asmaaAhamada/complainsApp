@@ -1,5 +1,6 @@
 import { TableCell, TableRow, Typography, Box } from "@mui/material";
-import ArticleIcon from '@mui/icons-material/Article';import { keyframes } from '@mui/system';
+import ArticleIcon from '@mui/icons-material/Article';
+import { keyframes } from '@mui/system';
 export default function NoComplaints() {
 
   const bounce = keyframes`

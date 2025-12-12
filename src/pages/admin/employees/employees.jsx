@@ -24,6 +24,7 @@ import DeleteEmployees from "./deletEmployees";
 export default function EmployeesTable() {
 
 const employees = useSelector((state)=>state.fetchEmployees)
+console.log(employees)
 const { isLoading, error } = useSelector((state) => state.fetchEmployees);
 const dispatch=useDispatch()
 
@@ -57,7 +58,7 @@ function handleadd(){
   return (
     <>
     <Box sx={{display:'flex' ,justifyContent:'Space_between' ,mb:2}}>
-    <Search/>
+    
      <Button
      onClick={handleadd}
   variant="contained"
@@ -67,8 +68,8 @@ function handleadd(){
     fontSize: { xs: "18px", sm: "20px", md: "24px" },
     fontWeight: "700",
     mt: { xs: "5%", sm: "15%", md: "5%" },
-    width: { xs: "50%", sm: "40%", md: "80%" },
-    mb: 2,
+    width: { xs: "30%", sm: "20%", md: "40%" },
+    mb: 2,backgroundColor:dark_green,color:defult,
     textTransform: "none",
   }}
 >
@@ -105,7 +106,12 @@ function handleadd(){
              {error ? (
   <Box> {error} </Box>
 ) : isLoading ? (
-  <><h5 style={{color: dark_green}}>جار تحميل البيانات.........</h5></>
+ <>
+    
+     <Box sx={{ textAlign: "center", mt: 5 }}>
+            <CircularProgress sx={{color:dark_green}} />
+          </Box>
+    </>
 ) : Array.isArray(employees?.data) && employees.data.length === 0 && !isLoading ? (
   <><NoData/></>
 ) : (

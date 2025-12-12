@@ -5,6 +5,16 @@ import { COLORS, dark_green, secondaryColors } from "../../colors/colorsApp";
 import { useDispatch, useSelector } from "react-redux";
 import { Statistics } from "../../slices/victory/adminSatics";
 
+
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import Groups2Icon from '@mui/icons-material/Groups2';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import BlockIcon from '@mui/icons-material/Block';
+
+import ScheduleIcon from "@mui/icons-material/Schedule";
+
+import HistoryIcon from "@mui/icons-material/History";
 export default function DashboardCharts() {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.Statistics);
@@ -16,19 +26,19 @@ export default function DashboardCharts() {
   // بيانات الشكاوى
   const complaintStats = data
     ? [
-        { x: "قيد المعالجة", y: data.complaints_processing },
-        { x: "منتهية", y: data.complaints_completed },
-        { x: "مرفوضة", y: data.complaints_rejected },
-        { x: "قيد الانتظار", y: data.complaints_pending },
+        { x: "قيد المعالجة", y: data.complaints_processing ,icon:<ScheduleIcon/> },
+        { x: "منتهية", y: data.complaints_completed ,icon:<AutoAwesomeIcon/>},
+        { x: "مرفوضة", y: data.complaints_rejected ,icon:<BlockIcon/> },
+        { x: "قيد الانتظار", y: data.complaints_pending  ,icon:<HistoryIcon/>},
       ]
     : [];
 
   // بيانات المستخدمين والموظفين والجهات الحكومية
   const userStats = data
     ? [
-        { x: "المستخدمين", y: data.total_users },
-        { x: "الموظفين", y: data.total_employees },
-        { x: "الجهات الحكومية", y: data.total_government_entities },
+        { x: "المستخدمين", y: data.total_users ,icon:<Groups2Icon/> },
+        { x: "الموظفين", y: data.total_employees,icon:<Diversity3Icon/> },
+        { x: "الجهات الحكومية", y: data.total_government_entities ,icon:<ApartmentIcon/> },
       ]
     : [];
 
@@ -56,7 +66,7 @@ export default function DashboardCharts() {
             textAlign: "center",
           }}
         >
-          توزيع الشكاوى حسب الحالة
+         : توزيع الشكاوى حسب الحالة
         </Typography>
 
         {complaintStats.length > 0 ? (
@@ -96,7 +106,12 @@ export default function DashboardCharts() {
                     boxShadow: 3,
                   }}
                 >
+                  <Box sx={{display:'flex',justifyContent:'center',gap:2}}
+                  >
+                 
                   <Typography>{item.x}</Typography>
+                   {item.icon}
+                  </Box>
                   <Typography variant="h6">{item.y}</Typography>
                 </Box>
               ))}
@@ -130,7 +145,7 @@ export default function DashboardCharts() {
             textAlign: "center",
           }}
         >
-          توزيع المستخدمين والموظفين والجهات الحكومية
+         : توزيع المستخدمين والموظفين والجهات الحكومية
         </Typography>
 
         {userStats.length > 0 ? (
@@ -170,8 +185,12 @@ export default function DashboardCharts() {
                     boxShadow: 3,
                   }}
                 >
+ <Box sx={{display:'flex',justifyContent:'center',gap:2}}
+                  >
+                 
                   <Typography>{item.x}</Typography>
-                  <Typography variant="h6">{item.y}</Typography>
+                   {item.icon}
+                  </Box>                  <Typography variant="h6">{item.y}</Typography>
                 </Box>
               ))}
             </Box>

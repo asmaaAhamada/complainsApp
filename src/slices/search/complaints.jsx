@@ -1,8 +1,9 @@
 import { createSlice ,createAsyncThunk  } from '@reduxjs/toolkit'
 import { BaseUrl, Complaints, SEARCH } from '../../Back_end/Api';
+import { getData } from '../../Back_end/ApiServecies';
 
 export const SearchComplaints = createAsyncThunk(
-  'program/search',
+  'program/SearchComplaints',
   async (reference_number, { rejectWithValue }) => {
     try {
     
@@ -10,7 +11,8 @@ export const SearchComplaints = createAsyncThunk(
 
       const response = await getData(`${BaseUrl}${Complaints}${SEARCH}?reference_number=${reference_number}`);
                         // console.log(response.data) 
-    
+    console.log("API RESPONSE:", response.data);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error?.message);
@@ -34,6 +36,8 @@ export const counterSlice = createSlice({
           })
           .addCase(SearchComplaints.fulfilled, (state, action) => {
             state.isloading = false
+              console.log("FULFILLED PAYLOAD:", action.payload);
+
             state.data = action.payload
             
           })

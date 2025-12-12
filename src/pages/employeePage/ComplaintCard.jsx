@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, Button, Box, Chip } from "@mui/material";
-import { dark_green, white, white_primary } from "../../colors/colorsApp";
+import { dark_green, dark_red, Orang, white, white_primary, Yallow } from "../../colors/colorsApp";
 import { IconButton, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 export default function ComplaintCard({ complaint, onView, onAddNote, onChangeStatus }) {
@@ -33,7 +33,10 @@ export default function ComplaintCard({ complaint, onView, onAddNote, onChangeSt
           <Chip
             label={`الحالة: ${complaint.status || "غير محددة"}`}
             sx={{
-              backgroundColor: '#FFBB28',
+              backgroundColor: complaint.status==='مرفوضة'? dark_red : complaint.status==='منجزة' ? dark_green :
+              complaint.status==='قيد المعالجة' ? Orang:
+              
+              Yallow,
               color: white,
               fontWeight: "bold",
             }}
