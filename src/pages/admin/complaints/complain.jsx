@@ -28,28 +28,16 @@ import NoComplaints from "../../emptyData/complaints";
  
 export default function ComplaintsPage(){
 
-   const { data: searchResults, isloading: searchLoading } = useSelector(
-    (state) => state.search
-  );
+  
 
   
 
 
-          const [searchTerm, setSearchTerm] = useState("");
 
 
 
 
-          // لو في بحث استخدم نتائجه، غير هيك اعرض البيانات الأصلية
-const specliseToDisplay = searchTerm
-  ? Array.isArray(searchResults)
-    ? Array.isArray(searchResults[0])
-      ? searchResults[0]   // حالة nested array مثل اللي عندك
-      : searchResults
-    : []
-  : Array.isArray(state.data)
-    ? state.data
-    : [];
+ 
  
 
     //state

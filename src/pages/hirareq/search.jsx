@@ -52,13 +52,13 @@ if (value.trim() === "") {
         }} id="outlined-basic" label="ادخل الرقم المرجعي للبحث هنا" variant="outlined" 
         
         
-       InputProps={{
-    startAdornment: (
-      <IconButton> 
-        <SearchIcon sx={{ color: "rgb(44, 44, 44)" }} />
-      </IconButton>
-    ),
-  }} 
+  //      InputProps={{
+  //   startAdornment: (
+  //     <IconButton> 
+  //       <SearchIcon sx={{ color: "rgb(44, 44, 44)" }} />
+  //     </IconButton>
+  //   ),
+  // }} 
         
         />
              

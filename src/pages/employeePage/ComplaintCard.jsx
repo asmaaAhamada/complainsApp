@@ -1,7 +1,8 @@
 import { Card, CardContent, Typography, Button, Box, Chip } from "@mui/material";
-import { dark_green, dark_red, Orang, white, white_primary, Yallow } from "../../colors/colorsApp";
+import { dark_green, dark_red, green, Orang, white, white_primary, Yallow } from "../../colors/colorsApp";
 import { IconButton, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { dark } from "@mui/material/styles/createPalette";
 export default function ComplaintCard({ complaint, onView, onAddNote, onChangeStatus }) {
   return (
     <Card
@@ -63,7 +64,7 @@ export default function ComplaintCard({ complaint, onView, onAddNote, onChangeSt
             sx={{
               borderColor: dark_green,
               color: dark_green,
-              "&:hover": { borderColor: "#2d5f3a", color: "#2d5f3a" },
+              "&:hover": { borderColor: green, color: green },
               flex: 1,
             }}
           >

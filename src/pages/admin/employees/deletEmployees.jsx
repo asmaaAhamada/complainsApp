@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { deletEmployees } from "../../../slices/employees/delet";
+import { dark_green } from "../../../colors/colorsApp";
 
 
 
@@ -83,7 +84,7 @@ function handleDelete(id){
         >
           <DialogTitle
             id="alert-dialog-title"
-            sx={{ direction: "rtl", fontSize: "24px", fontWeight: "700" }}
+            sx={{ direction: "rtl", fontSize: "24px", fontWeight: "700" ,color:dark_green}}
           >
             {"هل ترغب حقا بحذف الموظف"}
           </DialogTitle>

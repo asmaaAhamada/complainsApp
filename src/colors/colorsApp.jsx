@@ -1,5 +1,6 @@
 export const dark_green='rgb(44, 89, 60)'
 export const light_green='rgba(8, 121, 48, 1)'
+export const green='#2d5f3a'
 export const red='rgba(121, 8, 8, 1)'
 
 export const white='rgba(242, 245, 243, 1)'

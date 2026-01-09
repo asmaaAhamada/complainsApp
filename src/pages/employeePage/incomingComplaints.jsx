@@ -38,10 +38,7 @@ const [successMessage, setSuccessMessage] = useState("");
  const complaints = data?.data?.data ;
 const meta = data?.data?.meta || {};
 const links = data?.data?.links || {};
-// console.log("complaints:", complaints);
-// console.log("meta:", meta);
-// console.log("links:", links);
-//search
+
 const searchSlice = useSelector(state => state.SearchComplaints);
 console.log("SLICE:", searchSlice);
 

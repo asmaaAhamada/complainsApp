@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Log_in, setformInfo } from "../slices/log_in_Slice";
 import {  Link, useNavigate } from 'react-router-dom';
 import { BsThreeDots } from "react-icons/bs";
-
+import img from '../../public/image/logo.png'
 
 export default function Log__in_Page() {
    const { userInfo } = useSelector((state) => state.user);
@@ -119,16 +119,8 @@ if (role === "المشرف العام" || role === "الموظف") {
               
               
 
-              <Typography
-                variant="h3"
-                sx={{ 
-                  mt: isMobile ? 3 : 5, 
-                  mb: isMobile ? 8 : 14, 
-                //   color: (theme) => theme.palette.secondary.main,
-                  textAlign: "center"
-                }}
-              >
-شكواكم مسؤوليتنا              </Typography>
+             <img src={img} style={{width:"80%",height:'80%',marginBottom:'33%',marginTop:'13%'}}>
+             </img>
 
               <Box sx={{ 
                 width: "100%", 
